@@ -1,0 +1,39 @@
+[merge]
+  tool = gvimdiff
+[color]
+  diff   = auto
+  status = auto
+  branch = auto
+[push]
+  default = current
+[alias]
+  st = status -s
+  ci = commit
+  co = checkout
+  br = branch
+  pl = pull
+  ps = push
+  ss = stash
+  sp = stash pop
+  xlog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative master
+  pu = !"git fetch origin -v; git fetch upstream -v; git merge upstream/master"
+  tags   = !git for-each-ref refs/tags/* --format='%(refname)' --sort='authordate' | sed 's,refs/tags/,,g'
+  rank   = !git shortlog -sn --no-merges | sort -k 1 -n
+  forget = !git rm --cached
+  track  = !git branch --set-upstream
+[user]
+  name = pahagon
+  email = paulo.ahagon@gmail.com
+[github]
+  user = pahagon
+  email= paulo.ahagon@gmail.com
+[core]
+  editor = vim
+	excludesfile = ~/.gitignore
+[pull]
+  #rebase = true
+[help]
+	autocorrect = 1
+#[commit]
+#  template = ~/,gitmessage
+

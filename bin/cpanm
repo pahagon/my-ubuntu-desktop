@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+curl -L http://cpanmin.us | perl - --sudo $1
+
+

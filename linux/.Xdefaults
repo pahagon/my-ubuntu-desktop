@@ -1,0 +1,72 @@
+!uxft fonts
+!------------------------------------------------------------------
+
+Xft.dpi:        96
+Xft.antialias:  true
+Xft.rgba:       rgb
+Xft.lcdfilter:  lcddefult
+Xft.hinting:    true
+Xft.hintstyle:  hintfull
+
+! xterm
+!----------------------------------------------------------------------
+
+xterm*faceName: xft:DejaVu Sans Mono for Powerline:pixelsize=14:antialias=true
+
+! urxvt
+!---------------------------------------------------------------------
+
+URxvt*font:xft:DejaVu\ Sans\ Mono:bold:pixelsize=14:antialias=true,xft:DejaVu\ Sans\ Mono\ for\ Powerline:bold:pixelsize=14:antialias=true
+!URxvt*font:xft:DejaVu\ Sans\ Mono\ for\ Powerline:bold:pixelsize=14:antialias=true
+
+URxvt.urlLauncher: /usr/bin/firefox
+URxvt.matcher.button: 1
+URxvt.underlineURLs: true
+URxvt.imLocale: en_US.utf8
+
+URxvt*scrollstyle:plain
+URxvt*scrollBar: true
+URxvt*scrollBar_right: true
+URxvt*transpscrollbar: true
+URxvt*scrollBar_floating: true
+URxvt*saveLines: 1000000
+URxvt*scrollTtyOutput: false
+URxvt*scrollWithBuffer: true
+URxvt*scrollTtyKeypress: true
+
+URxvt*depth: 32
+URxvt*background: [80]#000000
+
+!URxvt*transparent: true
+!URxvt*shading: 50
+
+
+! themes
+! --------------------------------------------------------------------
+
+! tomorow-night
+
+*foreground: #c5c8c6
+*background: #1d1f21
+*cursorColor: #aeafad
+*color0: #000000
+*color1: #912226
+*color2: #778900
+*color3: #ae7b00
+*color4: #1d2594
+*color5: #682a9b
+*color6: #2b6651
+*color7: #929593
+*color8: #666666
+*color9: #cc6666
+*color10: #b5bd68
+*color11: #f0c674
+*color12: #81a2be
+*color13: #b294bb
+*color14: #8abeb7
+*color15: #ecebec
+
+! man pages
+URxvt.colorIT:      #87af5f
+URxvt.colorBD:      #d7d7d7
+URxvt.colorUL:      #87afd7

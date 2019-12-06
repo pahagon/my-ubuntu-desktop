@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# Giffy - Convert video to gif.
+#
+# Author: Joseph Hsu (@jhsu)
+# inspired by Richard Schneeman (@schneems)
+#   http://schneems.com/post/41104255619/use-gifs-in-your-pull-request-for-good-not-evil
+
+filename=$(basename "$1")
+filename="${filename%.*}"
+if [[ -f $1 ]]; then
+  # # for retina recorded videos:
+  ffmpeg -i $1 -vf scale=iw/2:-1 -pix_fmt rgb24 "${filename}.gif" 2>&1 > /dev/null && \
+  # ffmpeg -i $1 -pix_fmt rgb24 "${filename}.gif" 2>&1 > /dev/null && \
+    echo "* ffmpeg gif'd" && \
+    convert -layers Optimize "${filename}.gif" "${filename}_optimized.gif" && \
+    echo "* imagemagic optimized" && \
+    rm "${filename}.gif"
+else
+  echo "No file found."
+fi

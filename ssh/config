@@ -1,0 +1,11 @@
+TCPKeepAlive yes
+ServerAliveInterval 30
+
+Host *
+  ForwardAgent yes
+  HashKnownHosts no
+  GSSAPIAuthentication no
+
+Host *.u
+  ProxyCommand /bin/sh -c '/bin/nc -x127.0.0.1:1080 -X5 $(echo %h | sed s/\.u$//) %p'
+

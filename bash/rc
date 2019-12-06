@@ -1,0 +1,53 @@
+# Begin ~/.bashrc
+# Personal aliases and functions.
+
+if [ -f "/etc/bashrc" ] ; then
+  source /etc/bashrc
+fi
+
+project () {
+  export CURRENT_PROJECT=$1
+}
+
+cdp () {
+  local project_name=$1
+  cd $HOME/Development/$CURRENT_PROJECT/$project_name
+}
+
+_project () {
+  local cur
+  cur=${COMP_WORDS[COMP_CWORD]}
+  local prev
+  prev=${COMP_WORDS[COMP_CWORD-1]}
+  local projects
+  projects=$(ls $HOME/Development/ 2> /dev/null | tr '\n' ' ')
+
+  # We can safely ignore warning SC2207 since it warns that it will uses the
+  # shell's sloppy word splitting and globbing. The possible commands here are
+  # all single words, and most likely won't contain special chars the shell will
+  # expand.
+  COMPREPLY=()
+
+  # shellcheck disable=SC2207
+  COMPREPLY=($(compgen -W "$projects" -- "$cur"))
+
+  return 0
+}
+
+_cdp () {
+  local cur
+  cur=${COMP_WORDS[COMP_CWORD]}
+  local prev
+  prev=${COMP_WORDS[COMP_CWORD-1]}
+  local projects
+  projects=$(ls $HOME/Development/$CURRENT_PROJECT/ 2> /dev/null | tr '\n' ' ')
+
+  COMPREPLY=($(compgen -W "$projects" -- "$cur"))
+
+  return 0
+}
+
+complete -F _project project
+complete -F _cdp cdp
+
+# End ~/.bashrc

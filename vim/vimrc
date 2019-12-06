@@ -1,0 +1,234 @@
+set nocompatible "We're running Vim, not Vi!
+filetype off
+
+set rtp+=~/.vim/bundle/vundle/
+set rtp+=$POWERLINE_BINDINGS_HOME/vim
+call vundle#rc()
+
+" let Vundle manage Vundle
+" " required!
+
+Bundle "ervandew/supertab"
+Bundle "elixir-lang/vim-elixir"
+
+syntax on "Enable syntax highlighting
+colorscheme railscasts
+highlight Normal ctermbg=none
+
+" Enable filetype-specific indenting and plugins
+filetype plugin indent on
+
+" Only do this part when compiled with support for autocommands.
+if has("autocmd")
+  "jump to last cursor position when opening a file
+  "dont do it when writing a commit log entry
+  autocmd BufReadPost * call SetCursorPosition()
+
+  " Removes trailing spaces when saving the buffer
+  autocmd BufWritePre * :%s/\s\+$//e
+
+  autocmd FileType ruby,perl,c,cpp,java,javascript,xml,xhtml,html set shiftwidth=2
+  autocmd FileType xml setlocal foldmethod=syntax
+
+  augroup filetypedetect
+    autocmd BufNewFile,BufRead *.yml set filetype=ruby
+    autocmd BufNewFile,BufRead *.rb set filetype=ruby
+    autocmd BufNewFile,BufRead *.eex set filetype=elixir
+    autocmd BufRead,BufNewFile Guardfile set filetype=ruby
+    autocmd BufNewFile,BufRead *.xml so XMLFolding
+  augroup END
+
+  " Source the vimrc file after saving it
+  " autocmd bufwritepost .vimrc source $MYVIMRC
+endif
+
+"Load plugins using pathogen.vim
+call pathogen#infect()
+"call pathogen#incubate()
+
+" Load matchit (% to bounce from do to end, etc.)
+ runtime! plugin/matchit.vim
+
+"Powerline.vim
+"let g:Powerline_symbols = 'fancy'
+
+"Ctrl-P
+let g:ctrlp_dotfiles = 0
+let g:ctrlp_map = '<leader>i'
+let g:ctrlp_max_files = 0
+let g:ctrlp_custom_ignore = {
+ \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+ \ 'file': '\v\.(exe|so|png|jpg|jpeg|mov|gif|png)$',
+ \ 'link': '',
+ \ }
+
+"Clears CtrlP cache
+nmap <F3> :CtrlPClearCache<CR>
+
+"Open buffer of alredy opened files
+nmap <silent> <Leader>o :CtrlPBuffer<CR>
+
+"(supertab) navigate the completion menu from bottom to top
+let g:SuperTabDefaultCompletionType = "<c-n>"
+
+
+"make Y consistent with C and D
+nnoremap Y y$
+
+"Change tabs
+nmap <Tab> gt
+nmap <S-Tab> gT
+
+"Current path
+nnoremap <Leader>e :e <C-R>=expand('%:p:h') . '/'<CR>
+nnoremap <Leader>t :tabnew <C-R>=expand('%:p:h') . '/'<CR>
+
+"Create directory in current path
+nnoremap <Leader>d :!mkdir <C-R>=expand('%:p:h') . '/'<CR>
+
+"Create file in current path
+nnoremap <Leader>c :!cp <C-R>=expand('%:p') . ' ' . expand('%:p:h') . '/'<CR>
+
+"Rename file in current path
+nnoremap <Leader>r :!mv <C-R>=expand('%:p') . ' ' . expand('%:p:h') . '/'<CR>
+
+"Clear search highlight
+nnoremap <Leader><Space> :nohlsearch<CR>
+
+"Toggle Project tree
+nmap <silent> <Leader>p :NERDTreeToggle<CR>
+
+function! SetCursorPosition()
+    if &filetype !~ 'commit\c'
+        if line("'\"") > 0 && line("'\"") <= line("$")
+            exe "normal g`\""
+        endif
+    end
+endfunction
+
+" Visual
+set showmatch  " Show matching brackets.
+set mat=5  " Bracket blinking.
+"set list
+
+"imap <M-Up> :tabn<CR>
+"imap <M-Down> :tabp<CR>
+"imap <c-s> <esc><c-s>
+"
+" No arrow keys
+noremap <Up> <nop>
+noremap <Down> <nop>
+noremap <Left> <nop>
+noremap <Right> <nop>
+
+"make <c-l> clear the highlight as well as redraw
+"nnoremap <C-L> :nohls<CR><C-L>
+"inoremap <C-L> <C-O>:nohls<CR>
+
+" Don't use Ex mode, use Q for formatting
+"map Q to something useful
+"noremap Q gq
+
+" CTRL-Z undoes even in visual/selection mode
+vnoremap <C-Z> <C-C>
+
+scriptencoding utf-8
+set encoding=utf-8 nobomb
+set fileformats=unix,dos,mac
+set viewdir=/tmp
+
+set nobackup
+set nowritebackup
+" set backupdir=/private/tmp " tell vim where to put its backup files
+" set dir=/private/tmp " tell vim where to put swap files
+
+" allow backspacing over everything in insert mode
+set backspace=indent,eol,start
+
+set shell=$SHELL
+set autowrite " Writes on make/shell commands
+
+"tell the term has 256 colors
+set t_Co=256
+
+set hlsearch
+set modeline
+set nowrap " Line wrapping off
+set novisualbell " No blinking .
+set noerrorbells " No noise.
+set cf " Enable error files & error jumping.
+set clipboard=unnamed " Yanks go on clipboard instead.
+set history=256 " Number of things to remember in history.
+set ruler " Ruler on (show the cursor position all the time)
+set nu " Line numbers on
+set timeoutlen=251 " Time to wait after ESC (default causes an annoying delay)
+
+set path=$PWD/public/**,$PWD/**
+set sessionoptions=blank,buffers,curdir,folds,help,resize,tabpages,winsize
+set laststatus=2 " Always show status line.
+set cursorline " highlight the current line in every window and update the highlight as the cursor moves.
+set cursorcolumn
+
+set wildmode=list:longest   "make cmdline tab completion similar to bash
+set wildmenu                "enable ctrl-n and ctrl-p to scroll thru matches
+set wildignore=*.o,*.obj,*~,*.pyc,*.class,*.so,*.swp "stuff to ignore when tab completing
+
+"vertical/horizontal scroll off settings
+set scrolloff=3
+set sidescrolloff=7
+set sidescroll=1
+
+" Formatting (some of these are for coding in C and C++)
+set softtabstop=2
+set tabstop=8
+set ts=2
+set bs=2  " Backspace over everything in insert mode
+set shiftwidth=2  " Tabs under smart indent
+set incsearch " do incremental searching
+
+set cinoptions=:0,p0,t0
+set cinwords=if,else,while,do,for,switch,case
+set formatoptions=tcqr
+set cindent
+set autoindent " always set autoindenting on
+set smarttab
+set expandtab
+
+" In many terminal emulators the mouse works just fine, thus enable it.
+if has('mouse')
+  set mousehide  " Hide mouse after chars typed
+  set mouse=a "use in all modes
+endif
+
+"folding settings
+if has("folding")
+  set foldmethod=indent   "fold based on indent
+  set foldnestmax=3       "deepest fold is 3 levels
+  set nofoldenable        "dont fold by default
+  let g:xml_syntax_folding=1 "set up syntax folding automatically
+endif
+
+if has("gui_running")
+  set guitablabel=%M%t
+  set guioptions-=T  "recommend themes: desert molokai eclm_wombat vividchalk
+  set guioptions-=m
+
+  if has("gui_mac") || has("gui_macvim")
+    set guifont=Monaco:h10
+    " make Mac's Option key behave as the Meta key
+    set invmmta
+  endif
+else
+  " tmux will only forward escape sequences to the terminal if surrounded by a DCS sequence
+  " http://sourceforge.net/mailarchive/forum.php?thread_name=AANLkTinkbdoZ8eNR1X2UobLTeww1jFrvfJxTMfKSq-L%2B%40mail.gmail.com&forum_name=tmux-users
+  if exists('$TMUX')
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+  else
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+  endif
+  "dont load csapprox if there is no gui support - silences an annoying warning
+  " let g:CSApprox_loaded = 1
+endif
+

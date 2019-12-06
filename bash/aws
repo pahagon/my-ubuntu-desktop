@@ -1,0 +1,25 @@
+aws_account_name()
+{
+  if [[ ! -z "$AWS_ACCOUNT_NAME" ]]; then
+    echo $AWS_ACCOUNT_NAME
+  fi
+}
+
+export_aws_base()
+{
+  export EC2_URL=$(echo "https://ec2.$EC2_REGION.amazonaws.com")
+  export AWS_HOME_CREDENTIALS="$HOME/.ec2/"
+}
+
+export_aws_env()
+{
+  local company=$1
+  export EC2_REGION=${EC2_REGION:-"sa-east-1"}
+  export AWS_DEFAULT_REGION=$EC2_REGION
+  export_aws_base
+
+  export AWS_ACCESS_KEY_ID=$(cat $AWS_HOME_CREDENTIALS/$company/access_key_id)
+  export AWS_SECRET_ACCESS_KEY=$(cat $AWS_HOME_CREDENTIALS/$company/secret_access_key)
+}
+
+
