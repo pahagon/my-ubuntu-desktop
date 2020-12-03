@@ -15,6 +15,8 @@
 			     projectile
 			     helm-projectile
 			     counsel-projectile
+			     gh
+			     github-clone
 			     perspective
 			     ivy
 			     swiper-helm
