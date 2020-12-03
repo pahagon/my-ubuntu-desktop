@@ -3,17 +3,17 @@ Xft.antialias:  true
 Xft.rgba:       rgb
 Xft.lcdfilter:  lcddefult
 Xft.hinting:    true
-Xft.hinting:    1
+!Xft.hinting:    1
 Xft.hintstyle:  hintfull
-Xft.hintstyle:  hintslight
+!Xft.hintstyle:  hintslight
 Xcursor.size:   24
 Xcursor.theme:  elementary
 
 ! xterm
 !----------------------------------------------------------------------
-
-xterm*faceName: xft:DejaVu\ Sans\ Mono:bold:pixelsize=20:antialias=true,xft:DejaVu\ Sans\ Mono\ for\ Powerline:bold:pixelsize=20:antialias=true
-xterm*faceName: xft:DejaVu Sans Mono for Powerline:pixelsize=14:antialias=true
+Xterm*termName: xterm-256color
+!Xterm*faceName: xft:DejaVu\ Sans\ Mono:bold:pixelsize=20:antialias=true,xft:DejaVu\ Sans\ Mono\ for\ Powerline:bold:pixelsize=20:antialias=true
+Xterm*faceName: xft:DejaVu Sans Mono for Powerline:pixelsize=14:antialias=true
 Xterm*bellIsUrgent: false
 Xterm*locale: true
 Xterm*saveLines: 4096
@@ -23,8 +23,9 @@ Xterm*urgentOnBell: false
 ! urxvt
 !---------------------------------------------------------------------
 
-URxvt*font:xft:DejaVu\ Sans\ Mono:bold:pixelsize=20:antialias=true,xft:DejaVu\ Sans\ Mono\ for\ Powerline:bold:pixelsize=20:antialias=true
-!URxvt*font:xft:DejaVu\ Sans\ Mono\ for\ Powerline:bold:pixelsize=14:antialias=true
+URxvt*font: xft:DejaVu\ Sans\ Mono:bold:pixelsize=20:antialias=true,xft:DejaVu\ Sans\ Mono\ for\ Powerline:bold:pixelsize=20:antialias=true
+!URxvt*font: xft:DejaVu\ Sans\ Mono\ for\ Powerline:bold:pixelsize=14:antialias=true
+!URxvt*font: xft:Monaco for Powerline
 !urxvt*font: xft:Terminus:pixelsize=12,xft:Inconsolata\ for\ Powerline:pixelsize=12
 
 URxvt*urlLauncher: /usr/bin/google-chrome-stable
@@ -56,6 +57,7 @@ URxvt*background: [80]#000000
 
 ! tomorow-night
 
+*customization: -color
 *foreground: #c5c8c6
 *background: #1d1f21
 *cursorColor: #aeafad
