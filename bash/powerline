@@ -1,18 +1,14 @@
-if [ -n $PYHOME ]; then
-  export POWERLINE_HOME="$(pip show powerline-status | grep Location | cut -d':' -f2)/powerline"
-  export POWERLINE_BINDINGS_HOME="$POWERLINE_HOME/bindings"
-  if [ -d $POWERLINE_BINDINGS_HOME ]; then
-    if [ -f `which powerline-daemon` ]; then
-      export POWERLINE_BASH_CONTINUATION=1
-      export POWERLINE_BASH_SELECT=1
-      source $POWERLINE_BINDINGS_HOME/bash/powerline.sh
-    else
-      echo "Powerline not installed"
-    fi
+export POWERLINE_HOME="$(pip3 show powerline-status | grep Location | cut -d':' -f2)/powerline"
+export POWERLINE_BINDINGS_HOME="/usr/share/powerline/bindings"
+if [ -n $POWERLINE_BINDINGS_HOME ]; then
+  if [ -f `which powerline-daemon` ]; then
+    export POWERLINE_BASH_CONTINUATION=1
+    export POWERLINE_BASH_SELECT=1
+    source $POWERLINE_BINDINGS_HOME/bash/powerline.sh
   else
-    echo "Dir $POWERLINE_BINDINGS_HOME not found"
+    echo "Powerline not installed"
   fi
 else
-  echo "PYHOME env not found"
+  echo "Dir $POWERLINE_BINDINGS_HOME not found"
 fi
 

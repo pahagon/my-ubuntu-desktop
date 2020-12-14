@@ -1,6 +1,1 @@
-PYHOME=$HOME/pyhome
-if [ -d $PYHOME ]; then
-  source $PYHOME/bin/activate
-else
-  echo "DIR $PYHOME not found"
-fi
+
