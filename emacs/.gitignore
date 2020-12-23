@@ -50,3 +50,5 @@ auto-save-list/*
 projectile-bookmarks.eld
 recentf
 
+#generated file
+custom.el
