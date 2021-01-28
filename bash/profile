@@ -25,7 +25,6 @@ eval $(dircolors -b $HOME/.dircolors)
 source $HOME/dot/bash/alias
 source $HOME/dot/bash/locale
 source $HOME/dot/bash/aws
-source $HOME/dot/bash/python
 source $HOME/dot/bash/powerline
 source $HOME/dot/bash/asdf
 #source $HOME/dot/bash/rbenv
