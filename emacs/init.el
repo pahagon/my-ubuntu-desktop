@@ -37,8 +37,8 @@
 			     helm-ag
 			     terraform-mode
 			     dockerfile-mode
-           kotlin-mode
-           gradle-mode
+			     kotlin-mode
+			     gradle-mode
 			     mocha))
 
 (require 'load-config)
@@ -60,9 +60,9 @@
 	       js
 	       smartparens
 	       elixir
-         global-set-key
-         gradle-mode
-         global-set-key
+	       global-set-key
+	       gradle-mode
+	       global-set-key
 	       hooks))
 
 ;;C-h f (or M-x describe-function) will show you the bindings for a command.
