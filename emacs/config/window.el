@@ -5,6 +5,5 @@
 (toggle-scroll-bar -1)
 (tool-bar-mode -1)
 (setq select-enable-clipboard t)
-(set-frame-font "DejaVu Sans Mono for Powerline:pixelsize=20:antialias=true" nil t)
 (load-theme 'zenburn t)
 
