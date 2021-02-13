@@ -1,2 +1,2 @@
 ; -*- mode: Lisp;-*-
-(counsel-projectile-on)
+;(counsel-projectile-on)
