@@ -12,8 +12,8 @@ Xcursor.theme:  elementary
 ! xterm
 !----------------------------------------------------------------------
 Xterm*termName: xterm-256color
-!Xterm*faceName: xft:DejaVu\ Sans\ Mono:bold:pixelsize=20:antialias=true,xft:DejaVu\ Sans\ Mono\ for\ Powerline:bold:pixelsize=20:antialias=true
-Xterm*faceName: xft:DejaVu Sans Mono for Powerline:pixelsize=14:antialias=true
+Xterm*faceName: xft:DejaVu\ Sans\ Mono:bold:pixelsize=20:antialias=true,xft:DejaVu\ Sans\ Mono\ for\ Powerline:bold:pixelsize=20:antialias=true
+!Xterm*faceName: xft:DejaVu Sans Mono for Powerline:pixelsize=14:antialias=true
 Xterm*bellIsUrgent: false
 Xterm*locale: true
 Xterm*saveLines: 4096
@@ -23,8 +23,8 @@ Xterm*urgentOnBell: false
 ! urxvt
 !---------------------------------------------------------------------
 
-!URxvt*font: xft:DejaVu\ Sans\ Mono:bold:pixelsize=20:antialias=true,xft:DejaVu\ Sans\ Mono\ for\ Powerline:bold:pixelsize=20:antialias=true
-URxvt*font: xft:DejaVu\ Sans\ Mono\ for\ Powerline:bold:pixelsize=14:antialias=true
+URxvt*font: xft:DejaVu\ Sans\ Mono:bold:pixelsize=20:antialias=true,xft:DejaVu\ Sans\ Mono\ for\ Powerline:bold:pixelsize=20:antialias=true
+!URxvt*font: xft:DejaVu\ Sans\ Mono\ for\ Powerline:bold:pixelsize=14:antialias=true
 !URxvt*font: xft:Monaco for Powerline
 !urxvt*font: xft:Terminus:pixelsize=12,xft:Inconsolata\ for\ Powerline:pixelsize=12
 

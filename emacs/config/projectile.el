@@ -4,3 +4,5 @@
 (setq projectile-file-exists-remote-cache-expire (* 10 60))
 (setq projectile-switch-project-action 'projectile-dired)
 (setq projectile-find-dir-includes-top-level t)
+(setq projectile-project-search-path '("~/Development/" "~/dot"))
+
