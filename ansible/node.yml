@@ -1,0 +1,45 @@
+---
+  - name: "Setup Node"
+    hosts: localhost
+    connection: localhost
+    vars:
+      node_version: 14.15.3
+    tasks:
+      - name: "Clone asdf"
+        git:
+          repo: https://github.com/asdf-vm/asdf.git
+          dest: '/home/pahagon/.asdf'
+          version: v0.8.0
+
+      - name: Add nodejs plugin to asdf [https://github.com/asdf-vm/asdf-nodejs]
+        command: "asdf plugin-add nodejs"
+        register: node_add
+        failed_when: node_add == 2
+
+      - name: Import OpenPGP key
+        command: "bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring"
+
+      - name: Install nodejs {{node_version}} with asdf
+        command: asdf install nodejs {{node_version}}
+
+      - name: Set global version for nodejs to {{node_version}}
+        command: "asdf global nodejs {{node_version}}"
+
+      - name: Install "yarn" node.js package globally
+        npm:
+          name: yarn
+          global: yes
+
+      - name: Set npm init author name
+        command: "npm set init.author.name \"Paulo Ahagon\""
+
+      - name: Set npm init author email
+        command: "npm set init.author.email pahagon@gmail.com"
+
+      - name: Set npm init license
+        command: "npm set init.license MIT"
+
+      - name: Set npm init version
+        command: "npm set init.version \"1.0.0\""
+
+
