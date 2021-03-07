@@ -1,6 +1,6 @@
 
 ---
-  - name: "Setup Environment"
+  - name: "Install Google Chrome"
     hosts: localhost
     connection: local
     #vars:
