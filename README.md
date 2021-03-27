@@ -1,9 +1,9 @@
-#My dotfiles
+# My dotfiles
 
 
 Configure ubuntu workstation using Ansible.
 
-##Bootstrap
+## Bootstrap
 
 ```shell\
 $ ./bootstrap
