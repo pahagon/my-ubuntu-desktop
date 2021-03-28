@@ -6,6 +6,7 @@
     - name: "Install the lastet version of vim, git, rxvt, tmux, powerline, and etc"
       package:
         name:
+          - gnome-tweaks
           - git
           - vim
           - emacs
