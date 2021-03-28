@@ -1,0 +1,66 @@
+---
+  - name: "Install Theme and icons"
+    hosts: localhost
+    connection: localhost
+    vars:
+      - osx_one_home: /home/pahagon/Development/OSX_ONE
+      - theme_home: /home/pahagon/Development/WhiteSur-gtk-theme
+    tasks:
+      - name: Clone WhiteSur
+        git:
+          repo: https://github.com/vinceliuice/WhiteSur-gtk-theme.git
+          dest: "{{ theme_home }}"
+          version:  '2021-03-08'
+
+      - name: Install WhiteSur Theme
+        command: "{{ theme_home }}/install.sh"
+        register: theme_add
+        failed_when: theme_add == 2
+
+      - name: Install WhiteSur gdm
+        command: "sudo {{ theme_home }}/install.sh -g"
+        register: gdm_add
+        failed_when: gdm_add == 2
+
+      - name: Install WhiteSur Nautilus
+        command: "sudo {{ theme_home }}/install.sh --nautilus-use-colors"
+        register: nautilus_add
+        failed_when: nautilus_add == 2
+
+      - name: "Install numix-icon-theme"
+        package:
+          name:
+            - numix-icon-theme-circle
+
+      - name: Clone OSX_ONE
+        git:
+          repo: https://github.com/unc926/OSX_ONE.git
+          dest: "{{ osx_one_home }}"
+          version: master
+
+      - name: "Create symbolic links"
+        file:
+          src: "{{ osx_one_home }}/MacOSX_ONE8"
+          dest: '/home/pahagon/.icons/MacOSX_ONE8'
+          owner: pahagon
+          group: pahagon
+          state: link
+
+      - name: Set theme
+        command: "gsettings set org.gnome.desktop.interface gtk-theme WhiteSur-dark"
+
+      - name: Set cursor
+        command: "gsettings set org.gnome.desktop.interface cursor-theme DMZ-Black"
+
+      - name: Set icon
+        command: "gsettings set org.gnome.desktop.interface icon-theme Numix-Circle"
+
+      - name: Set document-font-name
+        command: "gsettings set org.gnome.desktop.interface document-font-name 'DejaVu Sans Semi-Condensed 11'"
+
+      - name: Set font-name
+        command: "gsettings set org.gnome.desktop.interface font-name 'DejaVu Sans Semi-Condensed 11'"
+
+      - name: Set monospace-font-name
+        command: "gsettings set org.gnome.desktop.interface monospace-font-name 'DejaVu Sans Mono 13'"
+
