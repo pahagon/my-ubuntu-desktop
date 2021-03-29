@@ -64,3 +64,6 @@
         groups: docker,sudo
         append: yes
 
+    - name: Set keyboard layout
+      command: gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us+intl')]"
+
