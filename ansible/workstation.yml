@@ -44,6 +44,7 @@
         - { src: "bash/logout",      dest: ".bash_logout"  }
         - { src: "bash/profile",     dest: ".bash_profile" }
         - { src: "bash/rc",          dest: ".bashrc"       }
+        - { src: "bash/dircolors",   dest: ".dircolors"    }
         - { src: "git/gitignore",    dest: ".gitignore"    }
         - { src: "git/gitconfig",    dest: ".gitconfig"    }
         - { src: "emacs",            dest: ".emacs.d"      }
