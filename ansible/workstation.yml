@@ -49,8 +49,9 @@
         - { src: "git/gitconfig",    dest: ".gitconfig"    }
         - { src: "emacs",            dest: ".emacs.d"      }
         - { src: "vim",              dest: ".vim"          }
-        - { src: "bin",              dest: "bin"          }
+        - { src: "bin",              dest: "bin"           }
         - { src: "ssh/config",       dest: ".ssh/config"   }
+        - { src: "rxvt-unicode/powerline-tmux.desktop", dest: ".local/share/applications/rxvt-unicode-powerline-tmux.desktop" }
 
     - name: "Clone asdf"
       git:

@@ -1,0 +1,18 @@
+[Desktop Entry]
+Name=Rxvt Powerline Tmux
+Comment=Use the command line
+TryExec=urxvt
+Exec=urxvt -e sh -c "source ~/.bash_profile; tmux"
+Icon=urxvt_48x48.xpm
+Type=Application
+Categories=Utility;TerminalEmulator;
+StartupNotify=true
+Keywords=Run;
+Actions=New
+StartupWMClass=URxvt
+
+[Desktop Action New]
+Name=Rxvt Powerline Tmux
+Exec=urxvt -e sh -c "source ~/.bash_profile; tmux"
+OnlyShowIn=Unity
+
