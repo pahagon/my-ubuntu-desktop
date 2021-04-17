@@ -1,0 +1,20 @@
+
+---
+  - name: "Install Github CLI"
+    hosts: localhost
+    connection: local
+    tasks:
+      - name: Add Github apt key by id from keyserver
+        ansible.builtin.apt_key:
+          keyserver: keyserver.ubuntu.com
+          id: C99B11DEB97541F0
+
+      - name: Add Github repository into sources list
+        ansible.builtin.apt_repository:
+          repo: deb [arch=amd64] https://cli.github.com/packages stable main
+          state: present
+
+      - name: "Install the lastet version of gh"
+        package:
+          name: gh
+
