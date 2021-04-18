@@ -19,6 +19,7 @@
           - htop
           - ffmpeg
           - curl
+          - lastpass-cli
         state: latest
 
     - name: "Install powerline-status"
