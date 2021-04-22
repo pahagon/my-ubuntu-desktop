@@ -39,6 +39,8 @@
 			     dockerfile-mode
 			     kotlin-mode
 			     gradle-mode
+			     yaml-mode
+			     markdown-mode
 			     mocha))
 
 (require 'load-config)
@@ -60,9 +62,9 @@
 	       js
 	       smartparens
 	       elixir
-	       global-set-key
 	       gradle-mode
 	       global-set-key
+	       yaml-mode
 	       hooks))
 
 ;;C-h f (or M-x describe-function) will show you the bindings for a command.

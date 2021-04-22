@@ -20,7 +20,9 @@
           - ffmpeg
           - curl
           - lastpass-cli
+          - markdown
         state: latest
+      become: true
 
     - name: "Install powerline-status"
       pip:
