@@ -1,0 +1,24 @@
+---
+  - name: "Setup Golang"
+    hosts: localhost
+    connection: localhost
+    vars:
+      golang_version: 1.17.1
+    tasks:
+      - name: "Clone asdf"
+        git:
+          repo: https://github.com/asdf-vm/asdf.git
+          dest: '/home/pahagon/.asdf'
+          version: v0.8.0
+
+      - name: Add golang plugin to asdf [https://github.com/asdf-vm/asdf-golang]
+        command: "asdf plugin-add golang"
+        register: golang_add
+        failed_when: golang_add == 2
+
+      - name: Install golang {{golang_version}} with asdf
+        command: asdf install golang {{golang_version}}
+
+      - name: Set global version for golang to {{golang_version}}
+        command: "asdf global golang {{golang_version}}"
+
