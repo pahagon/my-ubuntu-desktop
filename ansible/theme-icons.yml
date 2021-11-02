@@ -38,6 +38,13 @@
           dest: "{{ osx_one_home }}"
           version: master
 
+      - name: "Create icons directory if it does not exist"
+        file:
+          path: '/home/pahagon/.icons'
+          owner: pahagon
+          group: pahagon
+          state: directory
+
       - name: "Create symbolic links"
         file:
           src: "{{ osx_one_home }}/MacOSX_ONE8"
