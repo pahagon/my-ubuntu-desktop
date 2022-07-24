@@ -52,3 +52,5 @@ recentf
 
 #generated file
 custom.el
+
+transient/*
