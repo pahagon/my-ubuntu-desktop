@@ -8,6 +8,7 @@
 (require 'ensure-packages-installed)
 (ensure-packages-installed '(evil
 			     evil-collection
+			     flycheck
 			     pkg-info
 			     powerline
 			     magit
