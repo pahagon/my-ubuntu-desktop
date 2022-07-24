@@ -68,7 +68,7 @@
 	       global-set-key
 	       yaml-mode
 	       asdf-vm
-         evil-collection
+	       evil-collection
 	       hooks))
 
 ;;C-h f (or M-x describe-function) will show you the bindings for a command.
