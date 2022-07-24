@@ -1,0 +1,24 @@
+---
+  - name: "Setup Ruby"
+    hosts: localhost
+    connection: localhost
+    vars:
+      ruby_version: 3.0.1
+    tasks:
+      - name: "Clone asdf"
+        git:
+          repo: https://github.com/asdf-vm/asdf.git
+          dest: '/home/pahagon/.asdf'
+          version: v0.8.0
+
+      - name: Add ruby plugin to asdf [https://github.com/asdf-vm/asdf-ruby]
+        command: "asdf plugin-add ruby"
+        register: ruby_add
+        failed_when: ruby_add == 2
+
+      - name: Install ruby {{ruby_version}} with asdf
+        command: asdf install ruby {{ruby_version}}
+
+      - name: Set global version for ruby to {{ruby_version}}
+        command: "asdf global ruby {{ruby_version}}"
+
