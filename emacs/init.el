@@ -7,7 +7,10 @@
 
 (require 'ensure-packages-installed)
 (ensure-packages-installed '(evil
+			     evil-collection
+			     pkg-info
 			     powerline
+			     magit
 			     markdown-mode
 			     neotree
 			     ;tabbar
@@ -22,7 +25,6 @@
 			     swiper-helm
 			     zenburn-theme
 			     eshell-git-prompt
-			     magit
 			     smartparens
 			     clojure-mode
 			     cider
@@ -65,6 +67,8 @@
 	       gradle-mode
 	       global-set-key
 	       yaml-mode
+	       asdf-vm
+         evil-collection
 	       hooks))
 
 ;;C-h f (or M-x describe-function) will show you the bindings for a command.

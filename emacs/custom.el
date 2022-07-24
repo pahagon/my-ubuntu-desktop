@@ -5,7 +5,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (kotlin-mode markdown-mode markdow-mode dockerfile-mode erlang erlang-mode graphql-mode helm-ag mocha js3-mode swiper-helm smartparens npm-mode counsel-projectile ivy projectile-rails persp-projectile perspective tabbar js-auto-beautify json-mode json-navigator json-reformat json-rpc js2-mode nodejs-repl\.el nodejs-repl company-mode alchemist cider helm-projectile projectile helm zenburn-theme powerline evil eshell-git-prompt magit neotree)))
+    (evil-collection kotlin-mode markdown-mode markdow-mode dockerfile-mode erlang erlang-mode graphql-mode helm-ag mocha js3-mode swiper-helm smartparens npm-mode counsel-projectile ivy projectile-rails persp-projectile perspective tabbar js-auto-beautify json-mode json-navigator json-reformat json-rpc js2-mode nodejs-repl\.el nodejs-repl company-mode alchemist cider helm-projectile projectile helm zenburn-theme powerline evil eshell-git-prompt magit neotree)))
  '(safe-local-variable-values
    (quote
     ((ag-ignore-list "priv/static/**" "vendor/**" "node_modules/**")))))
