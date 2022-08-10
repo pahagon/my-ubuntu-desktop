@@ -47,7 +47,8 @@
 			     mocha))
 
 (require 'load-config)
-(load-config '(ivy
+(load-config '(emacs
+	       ivy
 	       dired
 	       backup-dir
 	       evil
@@ -61,7 +62,7 @@
 	       ;tabbar
 	       counsel-projectile
 	       perspective
-	       custom-file
+	       ;custom-file
 	       js
 	       smartparens
 	       elixir
