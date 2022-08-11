@@ -1,0 +1,23 @@
+
+---
+  - name: "Install mono"
+    hosts: localhost
+    connection: local
+    tasks:
+      - name: Install gpg key
+        ansible.builtin.apt_key:
+          keyserver: keyserver.ubuntu.com
+          id: 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+
+      - name: Add repository into sources list
+        ansible.builtin.apt_repository:
+          repo: deb https://download.mono-project.com/repo/ubuntu stable-focal main
+          state: present
+
+      - name: Update apt cache
+        apt: update_cache=yes
+
+      - name: Install mono-runtime
+        package:
+          name: mono-runtime
+
