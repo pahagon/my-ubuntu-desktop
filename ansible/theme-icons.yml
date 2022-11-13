@@ -3,8 +3,10 @@
     hosts: localhost
     connection: localhost
     vars:
-      - osx_one_home: /home/pahagon/Development/OSX_ONE
-      - theme_home: /home/pahagon/Development/WhiteSur-gtk-theme
+      - my_user: ahagon
+      - my_group: ahagon
+      - osx_one_home: /home/ahagon/Development/OSX_ONE
+      - theme_home: /home/ahagon/Development/WhiteSur-gtk-theme
     tasks:
       - name: Clone WhiteSur
         git:
@@ -40,17 +42,17 @@
 
       - name: "Create icons directory if it does not exist"
         file:
-          path: '/home/pahagon/.icons'
-          owner: pahagon
-          group: pahagon
+          path: '/home/{{ my_user }}/.icons'
+          owner: '{{ my_user }}'
+          group: '{{ my_group }}'
           state: directory
 
       - name: "Create symbolic links"
         file:
           src: "{{ osx_one_home }}/MacOSX_ONE8"
-          dest: '/home/pahagon/.icons/MacOSX_ONE8'
-          owner: pahagon
-          group: pahagon
+          dest: '/home/{{ my_user }}/.icons/MacOSX_ONE8'
+          owner: '{{ my_user }}'
+          group: '{{ my_group }}'
           state: link
 
       - name: Set theme

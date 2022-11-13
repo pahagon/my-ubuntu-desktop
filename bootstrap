@@ -11,7 +11,7 @@ if ! [ -x "$(command -v ansible)" ]; then
   sudo apt install ansible -v 2.9.6
 fi
 
-ansible-playbook /home/pahagon/dot/ansible/workstation.yml --ask-become-pass --tags $tags
+ansible-playbook $HOME/dot/ansible/workstation.yml --ask-become-pass --tags $tags
 
 if command -v terminal-notifier 1>/dev/null 2>&1; then
   terminal-notifier -title "dotfiles: Bootstrap complete" -message "Successfully set up dev environment."

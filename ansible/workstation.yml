@@ -2,7 +2,11 @@
   - name: "Setup Environment"
     hosts: localhost
     connection: local
+    vars:
+      - my_user: ahagon
+      - my_group: ahagon
     tasks:
+
     - name: "Install the lastet version of vim, git, rxvt, tmux, powerline, and etc"
       package:
         name:
@@ -12,12 +16,11 @@
           - emacs
           - rxvt-unicode
           - python3-pip
+          - powerline
           - fonts-powerline
           - tmux
           - xsel
-          - docker.io
           - htop
-          - ffmpeg
           - curl
           - lastpass-cli
           - markdown
@@ -30,10 +33,10 @@
 
     - name: "Create symbolic links"
       file:
-        src: '/home/pahagon/dot/{{ item.src }}'
-        dest: '/home/pahagon/{{ item.dest }}'
-        owner: pahagon
-        group: pahagon
+        src: '/home/{{ my_user }}/dot/{{ item.src }}'
+        dest: '/home/{{ my_user }}/{{ item.dest }}'
+        owner: '{{ my_user }}'
+        group: '{{ my_group }}'
         state: link
       loop:
         - { src: "linux/Xresources", dest: ".Xdefault"     }
@@ -59,14 +62,14 @@
     - name: "Clone asdf"
       git:
         repo: https://github.com/asdf-vm/asdf.git
-        dest: '/home/pahagon/.asdf'
+        dest: '/home/{{ my_user }}/.asdf'
         version: v0.8.0
 
     - name: "Add pahagon user to docker group"
       user:
-        name: pahagon
+        name: '{{ my_user }}'
         state: present
-        groups: docker,sudo
+        groups: 'docker,{{ my_user }}'
         append: yes
 
     - name: Set keyboard layout

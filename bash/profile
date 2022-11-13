@@ -17,8 +17,16 @@ fi
 # Setup some environment variables
 export EDITOR=vim
 export VISUAL=vim
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options
+export HISTCONTROL=ignoreboth
 export HISTSIZE=75000
 export HISTIGNORE="&:[bf]g:exit"
+
 export XLIB_SKIP_ARGB_VISUALS=1
 eval $(dircolors -b $HOME/.dircolors)
 
@@ -27,6 +35,4 @@ source $HOME/dot/bash/locale
 source $HOME/dot/bash/aws
 source $HOME/dot/bash/powerline
 source $HOME/dot/bash/asdf
-#source $HOME/dot/bash/rbenv
-
 
