@@ -1,0 +1,45 @@
+
+---
+  - name: "Install Docker"
+    hosts: localhost
+    connection: local
+    vars:
+      - my_user: pahagon
+      - my_group: pahagon
+    tasks:
+      - name: Add a google Apt signing key
+        ansible.builtin.apt_key:
+          url: https://download.docker.com/linux/ubuntu/gpg
+          keyring: /etc/apt/trusted.gpg.d/docker.gpg
+          state: present
+        become: true
+
+      - name: Add Docker repository into sources list
+        ansible.builtin.apt_repository:
+          repo: deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/docker.gpg] https://download.docker.com/linux/ubuntu focal stable
+          state: present
+          filename: docker
+        become: true
+
+      - name: Update apt cache
+        apt: update_cache=yes
+        become: true
+
+      - name: Install Docker
+        package:
+          name:
+            - docker-ce
+            - docker-ce-cli
+            - containerd.io
+            - docker-buildx-plugin
+            - docker-compose-plugin
+          state: latest
+        become: true
+
+      - name: "Add {{ my_user }} user to docker group"
+        user:
+          name: '{{ my_user }}'
+          state: present
+          groups: 'docker,{{ my_user }}'
+          append: yes
+        become: true

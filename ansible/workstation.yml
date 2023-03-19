@@ -65,13 +65,6 @@
         dest: '/home/{{ my_user }}/.asdf'
         version: v0.8.0
 
-    - name: "Add pahagon user to docker group"
-      user:
-        name: '{{ my_user }}'
-        state: present
-        groups: 'docker,{{ my_user }}'
-        append: yes
-
     - name: Set keyboard layout
       command: gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us+intl')]"
 
