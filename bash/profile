@@ -27,6 +27,9 @@ export HISTCONTROL=ignoreboth
 export HISTSIZE=75000
 export HISTIGNORE="&:[bf]g:exit"
 
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
 export XLIB_SKIP_ARGB_VISUALS=1
 eval $(dircolors -b $HOME/.dircolors)
 
@@ -35,4 +38,5 @@ source $HOME/dot/bash/locale
 source $HOME/dot/bash/aws
 source $HOME/dot/bash/powerline
 source $HOME/dot/bash/asdf
+source $HOME/dot/bash/rc
 
