@@ -1,0 +1,39 @@
+---
+  - name: "Setup Python"
+    hosts: localhost
+    connection: localhost
+    vars:
+      python_version: 3.11.2
+    tasks:
+      - name: "Clone asdf"
+        git:
+          repo: https://github.com/asdf-vm/asdf.git
+          dest: '/home/pahagon/.asdf'
+          version: v0.8.0
+
+      - name: "Install the lastet version of dependencies"
+        package:
+          name:
+            - build-essential
+            - checkinstall
+            - libreadline-gplv2-dev
+            - libncursesw5-dev
+            - libssl-dev
+            - libsqlite3-dev
+            - tk-dev
+            - libgdbm-dev
+            - libc6-dev
+            - libbz2-dev
+        become: true
+
+      - name: Add python plugin to asdf [https://github.com/asdf-vm/asdf-python]
+        command: "asdf plugin-add python"
+        register: python_add
+        failed_when: python_add == 2
+
+      - name: Install python {{python_version}} with asdf
+        command: asdf install python {{python_version}}
+
+      - name: Set global version for python to {{python_version}}
+        command: "asdf global python {{python_version}}"
+
