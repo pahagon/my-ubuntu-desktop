@@ -68,3 +68,10 @@
     - name: Set keyboard layout
       command: gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us+intl')]"
 
+      #https://solaaremupelumi.medium.com/persistent-keyboard-mapping-on-ubuntu-using-xmodmap-cd01ad828fcd
+    - name: "It convert the current xmodmap file to an xkbfile"
+      command: xkbcomp ":0" '/home/{{ my_user }}/.xkbmap'
+
+    - name: "It adds new startup application for xkbmap which actives this mapping uppon every reboot"
+      command: xkbcomp '/home/{{ my_user }}/.xkbmap' ":0"
+
