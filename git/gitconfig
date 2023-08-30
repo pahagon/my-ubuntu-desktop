@@ -36,4 +36,6 @@
 	autocorrect = 1
 #[commit]
 #  template = ~/,gitmessage
-
+[credential "https://gist.github.com"]
+	helper =
+	helper = !/usr/bin/gh auth git-credential
