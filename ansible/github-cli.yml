@@ -1,0 +1,20 @@
+---
+  - name: "Install Github CLI"
+    hosts: localhost
+    connection: local
+    become: yes
+    tasks:
+      - name: Add Github apt key by id from keyserver
+        apt_key:
+          url: https://cli.github.com/packages/githubcli-archive-keyring.gpg
+          state: present
+
+      - name: Add Github repository into sources list
+        apt_repository:
+          repo: deb [arch=amd64] https://cli.github.com/packages stable main
+          state: present
+
+      - name: "Install the lastet version of gh"
+        apt:
+          name: gh
+          state: present
