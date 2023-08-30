@@ -71,6 +71,7 @@
 	       yaml-mode
 	       asdf-vm
 	       evil-collection
+         arduino-mode
 	       hooks))
 
 ;;C-h f (or M-x describe-function) will show you the bindings for a command.
