@@ -3,7 +3,7 @@
     hosts: localhost
     connection: local
     vars_files:
-      - common_vars.yml 
+      - common_vars.yml
     tasks:
     - name: "Install the lastet version of vim, git, rxvt, tmux, powerline, and etc"
       package:
@@ -11,7 +11,6 @@
           - gnome-tweaks
           - git
           - vim
-          - emacs
           - rxvt-unicode
           - python3-pip
           - powerline

@@ -1,0 +1,21 @@
+---
+- name: Install Emacs 27.1 on Ubuntu
+  hosts: localhost 
+  become: yes  # Use sudo
+  tasks:
+    - name: Install software-properties-common
+      apt:
+        name: software-properties-common
+        state: present
+        update_cache: yes
+
+    - name: Add Emacs PPA
+      apt_repository:
+        repo: ppa:kelleyk/emacs
+        state: present
+        update_cache: yes
+
+    - name: Install Emacs 27
+      apt:
+        name: emacs27
+        state: present
