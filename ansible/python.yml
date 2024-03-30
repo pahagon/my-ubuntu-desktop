@@ -2,13 +2,15 @@
   - name: "Setup Python"
     hosts: localhost
     connection: localhost
+    vars_files:
+      - common_vars.yml 
     vars:
       python_version: 3.11.2
     tasks:
       - name: "Clone asdf"
         git:
           repo: https://github.com/asdf-vm/asdf.git
-          dest: '/home/pahagon/.asdf'
+          dest: "{{ my_home }}/.asdf"
           version: v0.8.0
 
       - name: "Install the lastet version of dependencies"

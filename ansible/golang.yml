@@ -2,13 +2,15 @@
   - name: "Setup Golang"
     hosts: localhost
     connection: localhost
+    vars_files:
+      - common_vars.yml 
     vars:
       golang_version: 1.17.1
     tasks:
       - name: "Clone asdf"
         git:
           repo: https://github.com/asdf-vm/asdf.git
-          dest: '/home/pahagon/.asdf'
+          dest: "{{ my_home }}/.asdf"
           version: v0.8.0
 
       - name: Add golang plugin to asdf [https://github.com/asdf-vm/asdf-golang]

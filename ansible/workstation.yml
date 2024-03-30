@@ -2,11 +2,9 @@
   - name: "Setup Environment"
     hosts: localhost
     connection: local
-    vars:
-      - my_user: ahagon
-      - my_group: ahagon
+    vars_files:
+      - common_vars.yml 
     tasks:
-
     - name: "Install the lastet version of vim, git, rxvt, tmux, powerline, and etc"
       package:
         name:
@@ -24,6 +22,7 @@
           - curl
           - lastpass-cli
           - markdown
+          - wireshark
         state: latest
       become: true
 
@@ -33,11 +32,12 @@
 
     - name: "Create symbolic links"
       file:
-        src: '/home/{{ my_user }}/dot/{{ item.src }}'
-        dest: '/home/{{ my_user }}/{{ item.dest }}'
+        src: '{{ my_home }}/dot/{{ item.src }}'
+        dest: '{{ my_home }}/{{ item.dest }}'
         owner: '{{ my_user }}'
         group: '{{ my_group }}'
         state: link
+        force: true
       loop:
         - { src: "linux/Xresources", dest: ".Xdefault"     }
         - { src: "linux/Xinitrc",    dest: ".Xinitrc"      }
@@ -62,7 +62,7 @@
     - name: "Clone asdf"
       git:
         repo: https://github.com/asdf-vm/asdf.git
-        dest: '/home/{{ my_user }}/.asdf'
+        dest: '{{ my_home }}/.asdf'
         version: v0.8.0
 
     - name: Set keyboard layout
@@ -70,8 +70,8 @@
 
       #https://solaaremupelumi.medium.com/persistent-keyboard-mapping-on-ubuntu-using-xmodmap-cd01ad828fcd
     - name: "It convert the current xmodmap file to an xkbfile"
-      command: xkbcomp ":0" '/home/{{ my_user }}/.xkbmap'
+      command: xkbcomp ":0" '{{ my_home }}/.xkbmap'
 
     - name: "It adds new startup application for xkbmap which actives this mapping uppon every reboot"
-      command: xkbcomp '/home/{{ my_user }}/.xkbmap' ":0"
+      command: xkbcomp '{{ my_home }}/.xkbmap' ":0"
 

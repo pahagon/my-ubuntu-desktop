@@ -2,13 +2,15 @@
   - name: "Setup Node"
     hosts: localhost
     connection: localhost
+    vars_files:
+      - common_vars.yml 
     vars:
       node_version: 14.15.3
     tasks:
       - name: "Clone asdf"
         git:
           repo: https://github.com/asdf-vm/asdf.git
-          dest: '/home/pahagon/.asdf'
+          dest: "{{ my_home }}/.asdf"
           version: v0.8.0
 
       - name: Add nodejs plugin to asdf [https://github.com/asdf-vm/asdf-nodejs]

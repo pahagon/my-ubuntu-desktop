@@ -1,6 +1,8 @@
 ---
   - name: "Setup Ruby"
     hosts: localhost
+    vars_files:
+      - common_vars.yml 
     connection: localhost
     vars:
       ruby_version: 3.0.1
@@ -8,7 +10,7 @@
       - name: "Clone asdf"
         git:
           repo: https://github.com/asdf-vm/asdf.git
-          dest: '/home/pahagon/.asdf'
+          dest: "{{ my_home }}/.asdf"
           version: v0.8.0
 
       - name: Add ruby plugin to asdf [https://github.com/asdf-vm/asdf-ruby]
