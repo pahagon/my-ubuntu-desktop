@@ -5,13 +5,9 @@
     vars_files:
       - common_vars.yml 
     vars:
-      python_version: 3.11.2
+      python_version: 3.12.2
     tasks:
-      - name: "Clone asdf"
-        git:
-          repo: https://github.com/asdf-vm/asdf.git
-          dest: "{{ my_home }}/.asdf"
-          version: v0.8.0
+      - include_tasks: common_tasks.yml
 
       - name: "Install the lastet version of dependencies"
         package:
@@ -35,7 +31,4 @@
 
       - name: Install python {{python_version}} with asdf
         command: asdf install python {{python_version}}
-
-      - name: Set global version for python to {{python_version}}
-        command: "asdf global python {{python_version}}"
 

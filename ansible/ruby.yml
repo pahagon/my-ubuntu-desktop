@@ -7,11 +7,7 @@
     vars:
       ruby_version: 3.0.1
     tasks:
-      - name: "Clone asdf"
-        git:
-          repo: https://github.com/asdf-vm/asdf.git
-          dest: "{{ my_home }}/.asdf"
-          version: v0.8.0
+      - include_tasks: common_tasks.yml
 
       - name: Add ruby plugin to asdf [https://github.com/asdf-vm/asdf-ruby]
         command: "asdf plugin-add ruby"

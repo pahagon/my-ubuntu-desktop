@@ -58,11 +58,7 @@
         - { src: "ssh/config",       dest: ".ssh/config"   }
         - { src: "rxvt-unicode/powerline-tmux.desktop", dest: ".local/share/applications/rxvt-unicode-powerline-tmux.desktop" }
 
-    - name: "Clone asdf"
-      git:
-        repo: https://github.com/asdf-vm/asdf.git
-        dest: '{{ my_home }}/.asdf'
-        version: v0.8.0
+    - include_tasks: common_tasks.yml
 
     - name: Set keyboard layout
       command: gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us+intl')]"
