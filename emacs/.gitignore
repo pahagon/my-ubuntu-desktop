@@ -54,3 +54,5 @@ recentf
 custom.el
 
 transient/*
+straight/*
+.cache/*
