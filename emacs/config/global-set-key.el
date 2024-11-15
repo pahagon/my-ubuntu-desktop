@@ -11,7 +11,7 @@
   ;; (c-mode)
   (indent-region (point-min) (point-max)))
 
-(global-linum-mode t)
+(global-display-line-numbers-mode t)
 (global-set-key (kbd "C-s") 'swiper)
 (global-set-key (kbd "C-c I") 'my-find-user-init-file)
 (global-set-key (kbd "C-c C-r") 'ivy-resume)
@@ -29,4 +29,3 @@
 (global-set-key (kbd "C-x l") 'counsel-locate)
 (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
 (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
-

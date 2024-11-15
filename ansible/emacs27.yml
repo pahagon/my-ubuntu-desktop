@@ -1,6 +1,6 @@
 ---
 - name: Install Emacs 27.1 on Ubuntu
-  hosts: localhost 
+  hosts: localhost
   become: yes  # Use sudo
   tasks:
     - name: Install software-properties-common
@@ -9,9 +9,15 @@
         state: present
         update_cache: yes
 
+    - name: Download and add the GPG key for the PPA
+      get_url:
+        url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xF6BC817356A3D45E
+        dest: /etc/apt/keyrings/kelleyk_emacs.gpg
+        mode: '0644'
+
     - name: Add Emacs PPA
       apt_repository:
-        repo: ppa:kelleyk/emacs
+        repo: "deb [signed-by=/etc/apt/keyrings/kelleyk_emacs.gpg] http://ppa.launchpad.net/kelleyk/emacs/ubuntu focal main"
         state: present
         update_cache: yes
 
