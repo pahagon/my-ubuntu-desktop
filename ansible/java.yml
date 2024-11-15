@@ -1,0 +1,22 @@
+---
+  - name: "Setup Ruby"
+    hosts: localhost
+    vars_files:
+      - common_vars.yml
+    connection: localhost
+    vars:
+      java_version: openjdk-23.0.1
+    tasks:
+      - include_tasks: common_tasks.yml
+
+      - name: Add java plugin to asdf [https://github.com/asdf-vm/asdf-java]
+        command: "asdf plugin-add java"
+        register: java_add
+        failed_when: java_add == 2
+
+      - name: Install java {{java_version}} with asdf
+        command: asdf install java {{java_version}}
+
+      - name: Set global version for java to {{java_version}}
+        command: "asdf global java {{java_version}}"
+
