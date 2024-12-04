@@ -1,0 +1,41 @@
+ autoinstall:
+  version: 1
+
+  packages:
+    - ubuntu-desktop
+
+  snaps:
+    - name: firefox
+    - name: snap-store
+    - name: snapd-desktop-integration
+    - name: gnome-tweaks
+    - name: git
+    - name: vim
+    - name: rxvt-unicode
+    - name: fonts-powerline
+    - name: xsel
+    - name: htop
+    - name: curl
+    - name: markdown
+    - name: ansible
+
+  # Subiquity will, by default, configure a partition layout using LVM.
+  # The 'direct' layout method shown here will produce a non-LVM result.
+  storage:
+    layout:
+      name: direct
+
+  # Ubuntu Desktop uses the hwe flavor kernel by default.
+  #early-commands:
+  #  - echo 'linux-generic-hwe-22.04' > /run/kernel-meta-package
+
+  late-commands:
+    # Let NetworkManager handle network
+    - rm /target/etc/netplan/00-installer-config*yaml
+    - >-
+      printf "network:\n  version: 2\n  renderer: NetworkManager"
+      > /target/etc/netplan/01-network-manager-all.yaml
+
+    # Finally, remove things only installed as dependencies of other things
+    # we have already removed.
+    - curtin in-target -- apt-get autoremove -y
