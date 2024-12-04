@@ -18,6 +18,7 @@
     - name: curl
     - name: markdown
     - name: ansible
+    - name: genisoimage
 
   # Subiquity will, by default, configure a partition layout using LVM.
   # The 'direct' layout method shown here will produce a non-LVM result.

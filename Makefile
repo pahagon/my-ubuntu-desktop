@@ -2,12 +2,12 @@ TEMP_DIR := /tmp/ubuntu-autoinstall
 ISO_URL := https://deb.campolargo.pr.gov.br/ubuntu/releases/24.04.1/ubuntu-24.04.1-desktop-amd64.iso
 ISO_FILE := $(TEMP_DIR)/ubuntu.iso
 VM_NAME := ubuntu-autoinstall
-DISK_FILE := ubuntu.vdi
-AUTOINSTALL_DIR := nocloud
-AUTOINSTALL_ISO := autoinstall.iso
+DISK_FILE := $(TEMP_DIR)/ubuntu.vdi
+AUTOINSTALL_DIR := $(TEMP_DIR)/nocloud
+AUTOINSTALL_ISO := $(TEMP_DIR)/autoinstall.iso
 VM_MEMORY := 2048
 VM_CPUS := 2
-VM_DISK_SIZE := 10000 # 20GB
+VM_DISK_SIZE := 10000 # 10GB
 
 all: download_iso create_vm attach_iso start_vm
 
@@ -28,7 +28,7 @@ create_autoinstall_iso:
 	@if [ ! -d $(AUTOINSTALL_DIR) ]; then \
 		mkdir -p $(AUTOINSTALL_DIR); \
 	fi
-	@cp autoinstall.yaml $(AUTOINSTALL_DIR)/user-data
+	@cp autoinstall.yml $(AUTOINSTALL_DIR)/user-data
 	@echo "instance-id: $(VM_NAME)" > $(AUTOINSTALL_DIR)/meta-data
 	@genisoimage -output $(AUTOINSTALL_ISO) -volid cidata -joliet -rock $(AUTOINSTALL_DIR)
 

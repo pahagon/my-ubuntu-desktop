@@ -5,30 +5,6 @@
     vars_files:
       - common_vars.yml
     tasks:
-    - name: "Install the lastet version of vim, git, rxvt, tmux, powerline, and etc"
-      package:
-        name:
-          - gnome-tweaks
-          - git
-          - vim
-          - rxvt-unicode
-          - python3-pip
-          - powerline
-          - fonts-powerline
-          - tmux
-          - xsel
-          - htop
-          - curl
-          - lastpass-cli
-          - markdown
-          - wireshark
-        state: latest
-      become: true
-
-    - name: "Install powerline-status"
-      pip:
-        name: powerline-status
-
     - name: "Create symbolic links"
       file:
         src: '{{ my_home }}/dot/{{ item.src }}'
