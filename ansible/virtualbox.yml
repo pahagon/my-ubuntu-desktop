@@ -1,0 +1,56 @@
+---
+- name: Install VirtualBox on Ubuntu Desktop
+  hosts: localhost
+  become: true  # Use sudo privileges
+
+  tasks:
+    - name: Update and upgrade apt packages
+      apt:
+        update_cache: yes
+        upgrade: dist
+
+    - name: Install prerequisites for VirtualBox
+      apt:
+        name:
+          - wget
+          - gnupg
+        state: present
+
+    - name: Add Oracle VirtualBox repository key
+      apt_key:
+        url: https://www.virtualbox.org/download/oracle_vbox_2016.asc
+        state: present
+
+    - name: Add Oracle VirtualBox repository
+      apt_repository:
+        repo: "deb [arch=amd64] https://download.virtualbox.org/virtualbox/debian {{ ansible_distribution_release }} contrib"
+        state: present
+
+    - name: Update apt cache after adding VirtualBox repository
+      apt:
+        update_cache: yes
+
+    - name: Install VirtualBox
+      apt:
+        name: virtualbox-7.0  # Replace 7.0 with the desired version
+        state: present
+
+    - name: Get linux kernel release
+      shell: uname -r
+      register: kernel_release
+      
+    - name: Ensure required kernel modules are installed
+      apt:
+        name:
+          - dkms
+          - linux-headers-{{ kernel_release.stdout }}
+        state: present
+
+    - name: Verify VirtualBox installation
+      command: vboxmanage --version
+      register: vbox_version
+      failed_when: vbox_version.rc != 0
+
+    - name: Display VirtualBox version
+      debug:
+        msg: "VirtualBox installed successfully. Version: {{ vbox_version.stdout }}"
