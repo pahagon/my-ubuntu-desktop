@@ -1,0 +1,39 @@
+---
+- name: Install QEMU with KVM on Ubuntu
+  hosts: localhost
+  connection: local
+  become: true
+  vars_files:
+    - common_vars.yml
+  tasks:
+    - name: Update system repositories
+      apt:
+        update_cache: yes
+        upgrade: dist
+
+    - name: Install required packages for QEMU and KVM
+      apt:
+        name:
+          - qemu-kvm
+          - libvirt-daemon-system
+          - libvirt-clients
+          - bridge-utils
+          - virt-manager
+        state: present
+
+    - name: Add user to the kvm group
+      user:
+        name: "{{ my_user }}"
+        groups: kvm
+        append: yes
+
+    - name: Check if KVM is enabled in the hardware
+      command: egrep -c '(vmx|svm)' /proc/cpuinfo
+      register: kvm_support
+      ignore_errors: yes
+
+    - name: Display message about KVM support
+      debug:
+        msg: >
+          KVM support detected with '{{ kvm_support.stdout }}' enabled CPUs.
+          If the value is 0, please enable virtualization in the BIOS/UEFI.
