@@ -15,7 +15,7 @@ Welcome to the "My Ubuntu Desktop" repository! This project is a curated collect
 
 Before you begin the installation process, please ensure you have the following:
 
-- A machine running Ubuntu 20.04 LTS or newer.
+- A machine running Ubuntu 24.04 LTS.
 - Internet connection for downloading necessary packages and tools.
 - Basic understanding of terminal commands and permissions in Linux.
 
