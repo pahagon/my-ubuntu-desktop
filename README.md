@@ -341,7 +341,9 @@ source ~/.bashrc
 
 ## 🤝 Contribuindo
 
-Contribuições são bem-vindas! Por favor:
+Contribuições são bem-vindas! Consulte [CONTRIBUTING.md](CONTRIBUTING.md) para o processo completo e [BRANCHING.md](BRANCHING.md) para a estratégia de branches.
+
+**Quick start**:
 
 1. Fork o repositório
 2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
