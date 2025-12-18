@@ -1,0 +1,58 @@
+# AppImages - binários grandes que devem ser baixados separadamente
+*.AppImage
+*.AppImage.*
+
+# Emacs package manager caches
+emacs/straight/
+emacs/elpa/
+emacs/.cache/
+emacs/auto-save-list/
+emacs/transient/
+emacs/eln-cache/
+emacs/.*~
+emacs/*~
+
+# Binários grandes que devem ser instalados separadamente
+bin/arduino-cli
+bin/arduino-lint
+bin/squashfs-root/
+
+# Cursor versions (mantém apenas a última versão necessária)
+bin/Cursor-*.AppImage.zs-old
+
+# Vim temporary files
+vim/.netrwhist
+vim/bundle/*/.git/
+
+# Temporary and backup files
+*~
+*.swp
+*.swo
+*.bak
+.DS_Store
+
+# SSH keys (segurança)
+ssh/id_*
+ssh/*.pem
+ssh/*.key
+!ssh/*.pub
+
+# Ansible retry files
+*.retry
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+
+# Node
+node_modules/
+
+# Editor directories
+.vscode/
+.idea/
+
+# OS generated files
+Thumbs.db
+.Trash-*
