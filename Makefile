@@ -105,8 +105,11 @@ lint-ansible:
 	fi
 	@echo "Checking Ansible syntax..."
 	@cd ansible && for playbook in *.yml; do \
-		echo "Checking $$playbook..."; \
-		ansible-playbook "$$playbook" --syntax-check || true; \
+		# Skip task files and variable files (not playbooks)
+		if [ "$$playbook" != "common_tasks.yml" ] && [ "$$playbook" != "common_vars.yml" ]; then \
+			echo "Checking $$playbook..."; \
+			ansible-playbook "$$playbook" --syntax-check || true; \
+		fi; \
 	done
 
 # Run shell script linters

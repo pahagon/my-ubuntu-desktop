@@ -7,12 +7,14 @@ setup() {
     export TEST_DIR="${BATS_TEST_TMPDIR}/test_setup"
     mkdir -p "$TEST_DIR"
 
-    # Mock do BIN_DIR
+    # Mock do SCRIPT_DIR e BIN_DIR antes do source
+    export SCRIPT_DIR="$TEST_DIR"
     export BIN_DIR="$TEST_DIR/bin"
     mkdir -p "$BIN_DIR"
 
-    # Carregar funções do script (sem executar main)
-    source <(sed '/^main.*$/,$d' setup-binaries.sh)
+    # Carregar funções do script (sem executar main, sem mkdir, sem redefinir SCRIPT_DIR/BIN_DIR)
+    # Remove a função main, a linha do mkdir -p, e as linhas que definem SCRIPT_DIR e BIN_DIR
+    source <(sed -e '/^main.*$/,$d' -e '/^mkdir -p.*BIN_DIR/d' -e '/^SCRIPT_DIR=/d' -e '/^BIN_DIR=/d' setup-binaries.sh)
 }
 
 teardown() {
@@ -52,7 +54,14 @@ teardown() {
     touch "$BIN_DIR/arduino-cli"
 
     # Simular resposta "N" (não sobrescrever)
-    run bash -c "echo 'N' | $(declare -f install_arduino_cli); install_arduino_cli"
+    # Exportar todas as funções e variáveis necessárias
+    run bash -c "
+        BIN_DIR='$BIN_DIR'
+        $(declare -f log_info)
+        $(declare -f log_warn)
+        $(declare -f install_arduino_cli)
+        echo 'N' | install_arduino_cli
+    "
 
     # Deve conter mensagem de skip
     [[ "$output" =~ "já existe" || "$output" =~ "Pulando" ]]
@@ -77,8 +86,8 @@ teardown() {
     # Criar arquivo fake do Cursor
     touch "$BIN_DIR/Cursor-0.41.0.AppImage"
 
-    # Verificar que LATEST_CURSOR é detectado
-    LATEST_CURSOR=$(ls -1 "$BIN_DIR"/Cursor-*.AppImage 2>/dev/null | sort -V | tail -n1)
+    # Verificar que LATEST_CURSOR é detectado (usando find como no script corrigido)
+    LATEST_CURSOR=$(find "$BIN_DIR" -maxdepth 1 -name "Cursor-*.AppImage" 2>/dev/null | sort -V | tail -n1)
 
     [[ -n "$LATEST_CURSOR" ]]
     [[ "$LATEST_CURSOR" =~ Cursor.*AppImage ]]
