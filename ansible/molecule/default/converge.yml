@@ -1,0 +1,67 @@
+---
+# Converge playbook - executa playbooks para testar
+- name: Converge
+  hosts: all
+  vars:
+    # Override user variables para teste
+    my_user: root
+    my_home: /root
+    my_group: root
+
+  pre_tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+      when: ansible_os_family == "Debian"
+
+    - name: Install basic dependencies
+      apt:
+        name:
+          - git
+          - curl
+          - ca-certificates
+          - gnupg
+          - lsb-release
+        state: present
+      when: ansible_os_family == "Debian"
+
+  tasks:
+    # Testar common_tasks (ASDF)
+    - name: Include common_tasks
+      include_tasks: "{{ playbook_dir }}/common_tasks.yml"
+
+    # Testar instalação de Python
+    - name: Test Python installation
+      block:
+        - name: Add Python plugin to ASDF
+          shell: |
+            export ASDF_DIR="{{ my_home }}/.asdf"
+            export ASDF_DATA_DIR="{{ my_home }}/.asdf"
+            . {{ my_home }}/.asdf/asdf.sh
+            if ! asdf plugin list | grep -q python; then
+              asdf plugin-add python
+            fi
+          args:
+            executable: /bin/bash
+          changed_when: false
+
+        - name: Install Python 3.12.2
+          shell: |
+            export ASDF_DIR="{{ my_home }}/.asdf"
+            export ASDF_DATA_DIR="{{ my_home }}/.asdf"
+            . {{ my_home }}/.asdf/asdf.sh
+            asdf install python 3.12.2
+          args:
+            executable: /bin/bash
+            creates: "{{ my_home }}/.asdf/installs/python/3.12.2"
+
+        - name: Set global Python version
+          shell: |
+            export ASDF_DIR="{{ my_home }}/.asdf"
+            export ASDF_DATA_DIR="{{ my_home }}/.asdf"
+            . {{ my_home }}/.asdf/asdf.sh
+            asdf global python 3.12.2
+          args:
+            executable: /bin/bash
+          changed_when: false

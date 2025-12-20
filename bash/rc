@@ -70,3 +70,4 @@ ssh-add-reload () {
 }
 
 # End ~/.bashrc
+export PATH="$HOME/.local/bin:$PATH"

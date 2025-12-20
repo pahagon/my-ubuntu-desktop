@@ -1,0 +1,43 @@
+---
+# Prepare playbook - prepara ambiente antes dos testes
+- name: Prepare
+  hosts: all
+  gather_facts: true
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+      when: ansible_os_family == "Debian"
+
+    - name: Install system dependencies
+      apt:
+        name:
+          - build-essential
+          - libssl-dev
+          - zlib1g-dev
+          - libbz2-dev
+          - libreadline-dev
+          - libsqlite3-dev
+          - wget
+          - curl
+          - llvm
+          - libncursesw5-dev
+          - xz-utils
+          - tk-dev
+          - libxml2-dev
+          - libxmlsec1-dev
+          - libffi-dev
+          - liblzma-dev
+          - git
+          - ca-certificates
+        state: present
+        update_cache: yes
+      when: ansible_os_family == "Debian"
+
+    - name: Create test user home directory
+      file:
+        path: /root
+        state: directory
+        mode: '0755'
