@@ -1,0 +1,133 @@
+---
+# Verify playbook - verifica que tudo foi instalado corretamente
+- name: Verify
+  hosts: all
+  vars:
+    my_user: root
+    my_home: /root
+    my_group: root
+
+  tasks:
+    # ===========================================
+    # Verificar ASDF
+    # ===========================================
+    - name: Check if ASDF is installed
+      stat:
+        path: "{{ my_home }}/.asdf"
+      register: asdf_dir
+
+    - name: Assert ASDF directory exists
+      assert:
+        that:
+          - asdf_dir.stat.exists
+          - asdf_dir.stat.isdir
+        fail_msg: "ASDF directory not found"
+        success_msg: "ASDF is installed"
+
+    - name: Check ASDF version
+      shell: |
+        export ASDF_DIR="{{ my_home }}/.asdf"
+        . {{ my_home }}/.asdf/asdf.sh
+        asdf --version
+      args:
+        executable: /bin/bash
+      register: asdf_version
+      changed_when: false
+
+    - name: Display ASDF version
+      debug:
+        var: asdf_version.stdout
+
+    # ===========================================
+    # Verificar Python
+    # ===========================================
+    - name: Check if Python plugin is added
+      shell: |
+        export ASDF_DIR="{{ my_home }}/.asdf"
+        . {{ my_home }}/.asdf/asdf.sh
+        asdf plugin list | grep -q python
+      args:
+        executable: /bin/bash
+      register: python_plugin
+      changed_when: false
+      failed_when: false
+
+    - name: Assert Python plugin exists
+      assert:
+        that:
+          - python_plugin.rc == 0
+        fail_msg: "Python plugin not found in ASDF"
+        success_msg: "Python plugin is installed"
+
+    - name: Check Python version
+      shell: |
+        export ASDF_DIR="{{ my_home }}/.asdf"
+        . {{ my_home }}/.asdf/asdf.sh
+        python --version
+      args:
+        executable: /bin/bash
+      register: python_version
+      changed_when: false
+
+    - name: Display Python version
+      debug:
+        var: python_version.stdout
+
+    - name: Assert Python version is 3.12.x
+      assert:
+        that:
+          - python_version.stdout is search("Python 3.12")
+        fail_msg: "Python version is not 3.12.x: {{ python_version.stdout }}"
+        success_msg: "Python 3.12.x is installed"
+
+    # ===========================================
+    # Verificar pip
+    # ===========================================
+    - name: Check pip version
+      shell: |
+        export ASDF_DIR="{{ my_home }}/.asdf"
+        . {{ my_home }}/.asdf/asdf.sh
+        pip --version
+      args:
+        executable: /bin/bash
+      register: pip_version
+      changed_when: false
+
+    - name: Display pip version
+      debug:
+        var: pip_version.stdout
+
+    # ===========================================
+    # Verificar arquivos de configuração
+    # ===========================================
+    - name: Check if .asdfrc exists
+      stat:
+        path: "{{ my_home }}/.asdfrc"
+      register: asdfrc
+
+    - name: Display .asdfrc status
+      debug:
+        msg: ".asdfrc {{ 'exists' if asdfrc.stat.exists else 'does not exist' }}"
+
+    # ===========================================
+    # Verificar comandos essenciais
+    # ===========================================
+    - name: Check essential commands
+      command: "which {{ item }}"
+      register: cmd_check
+      changed_when: false
+      failed_when: false
+      loop:
+        - git
+        - curl
+        - bash
+
+    - name: Assert essential commands exist
+      assert:
+        that:
+          - item.rc == 0
+        fail_msg: "Command not found: {{ item.item }}"
+        success_msg: "Command exists: {{ item.item }}"
+      loop: "{{ cmd_check.results }}"
+      loop_control:
+        label: "{{ item.item }}"

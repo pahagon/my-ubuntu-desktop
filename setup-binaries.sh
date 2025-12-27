@@ -36,7 +36,7 @@ install_arduino_cli() {
 
     if [ -f "$BIN_DIR/arduino-cli" ]; then
         log_warn "Arduino CLI já existe em $BIN_DIR/arduino-cli"
-        read -p "Deseja sobrescrever? (s/N): " -n 1 -r
+        read -r -p "Deseja sobrescrever? (s/N): " -n 1 REPLY
         echo
         if [[ ! $REPLY =~ ^[Ss]$ ]]; then
             log_info "Pulando instalação do Arduino CLI"
@@ -44,7 +44,7 @@ install_arduino_cli() {
         fi
     fi
 
-    ARDUINO_VERSION="latest"
+    ARDUINO_VERSION="0.35.3"
     ARDUINO_URL="https://downloads.arduino.cc/arduino-cli/arduino-cli_${ARDUINO_VERSION}_Linux_64bit.tar.gz"
 
     log_info "Baixando Arduino CLI de $ARDUINO_URL..."
@@ -65,11 +65,11 @@ install_cursor() {
     log_info "Instalando Cursor IDE..."
 
     # Detectar a última versão instalada
-    LATEST_CURSOR=$(ls -1 "$BIN_DIR"/Cursor-*.AppImage 2>/dev/null | sort -V | tail -n1)
+    LATEST_CURSOR=$(find "$BIN_DIR" -maxdepth 1 -name "Cursor-*.AppImage" 2>/dev/null | sort -V | tail -n1)
 
     if [ -n "$LATEST_CURSOR" ]; then
         log_warn "Cursor já instalado: $(basename "$LATEST_CURSOR")"
-        read -p "Deseja baixar a versão mais recente? (s/N): " -n 1 -r
+        read -r -p "Deseja baixar a versão mais recente? (s/N): " -n 1 REPLY
         echo
         if [[ ! $REPLY =~ ^[Ss]$ ]]; then
             log_info "Pulando instalação do Cursor"
@@ -119,7 +119,7 @@ main() {
 
     while true; do
         show_menu
-        read -p "Escolha uma opção: " choice
+        read -r -p "Escolha uma opção: " choice
 
         case $choice in
             1)

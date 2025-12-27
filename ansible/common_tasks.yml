@@ -3,5 +3,5 @@
     git:
       repo: https://github.com/asdf-vm/asdf.git
       dest: "{{ my_home }}/.asdf"
-      version: v0.8.0
+      version: v0.18.0
 
