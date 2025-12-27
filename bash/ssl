@@ -1,0 +1,4 @@
+# SSL/TLS Configuration
+
+# Set the path to SSL certificate file (Ubuntu default)
+export SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
