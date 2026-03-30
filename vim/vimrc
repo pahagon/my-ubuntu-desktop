@@ -55,7 +55,7 @@ if has("autocmd")
 endif
 
 " Load matchit (% to bounce from do to end, etc.)
- runtime! plugin/matchit.vim
+packadd! matchit
 
 "Powerline.vim
 "let g:Powerline_symbols = 'fancy'
