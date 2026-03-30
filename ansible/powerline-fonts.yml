@@ -1,0 +1,16 @@
+---
+  - name: "Install Powerline Fonts"
+    hosts: localhost
+    connection: local
+    become: true
+    vars_files:
+      - common_vars.yml
+    tasks:
+      - name: Update apt cache
+        apt:
+          update_cache: yes
+
+      - name: Install powerline fonts
+        package:
+          name: fonts-powerline
+          state: latest
