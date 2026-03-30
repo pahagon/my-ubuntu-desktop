@@ -1,0 +1,11 @@
+---
+- import_playbook: desktop-minimal.yml
+- import_playbook: docker.yml
+- import_playbook: chrome.yml
+- import_playbook: golang.yml
+- import_playbook: java.yml
+- import_playbook: ruby.yml
+- import_playbook: emacs27.yml
+- import_playbook: theme-icons.yml
+- import_playbook: virtualbox.yml
+- import_playbook: qemu.yml
