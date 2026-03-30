@@ -88,8 +88,9 @@ Este projeto automatiza a configuração completa de um ambiente Ubuntu Desktop 
 │   ├── lisp/             # Custom Elisp
 │   └── config/           # Configurações modulares
 ├── vim/                  # Configuração Vim
-│   ├── vimrc             # Main config (8K linhas)
-│   └── bundle/           # Plugins
+│   ├── vimrc             # Configuração principal (vim-plug)
+│   ├── colors/           # Colorschemes (railscasts)
+│   └── plugin/           # Plugins locais (XMLFolding)
 ├── tmux/                 # Configuração Tmux
 │   └── tmux.conf         # Config com vim bindings
 ├── git/                  # Configuração Git
