@@ -26,10 +26,10 @@
           global: yes
 
       - name: Set npm init author name
-        command: "npm config set init-author-name \"Paulo Ahagon\""
+        command: "npm config set init-author-name \"{{ my_init_author_name }}\""
 
       - name: Set npm init author email
-        command: "npm config set init-author-email pahagon@gmail.com"
+        command: "npm config set init-author-email {{ my_init_author_email }}"
 
       - name: Set npm init license
         command: "npm config set init-license MIT"

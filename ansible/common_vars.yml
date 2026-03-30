@@ -1,3 +1,5 @@
-my_user: pahagon
-my_group: pahagon
-my_home: /home/pahagon
+my_user: paulo.ahagon
+my_group: domain users
+my_home: /home/paulo.ahagon
+my_init_author_name: Paulo Ahagon
+my_init_author_email: pahagon@gmail.com
