@@ -9,7 +9,7 @@ Sistema completo de gerenciamento de configurações (dotfiles) e automação pa
 
 Este projeto automatiza a configuração completa de um ambiente Ubuntu Desktop focado em desenvolvimento, incluindo:
 
-- **18+ playbooks Ansible** para instalação automatizada de ferramentas
+- **20+ playbooks Ansible** para instalação automatizada de ferramentas
 - **Configurações completas** para Emacs (50+ pacotes), Vim, Tmux, Bash
 - **Gerenciamento de versões** com ASDF para Python, Node.js, Go, Ruby
 - **Ubuntu Autoinstall** com cloud-init para instalação desatendida
@@ -72,7 +72,11 @@ Este projeto automatiza a configuração completa de um ambiente Ubuntu Desktop 
 │   ├── ruby.yml              # Setup Ruby via ASDF
 │   ├── theme-icons.yml       # Instalação de temas e ícones
 │   ├── tmux.yml              # Instalação do tmux
-│   └── virtualbox.yml        # Instalação do VirtualBox
+│   ├── vim.yml               # Instalação do Vim
+│   ├── virtualbox.yml        # Instalação do VirtualBox
+│   ├── claude-code.yml       # Instalação do Claude Code
+│   ├── desktop-minimal.yml   # Ambiente mínimo de desenvolvimento
+│   └── desktop-full.yml      # Ambiente completo de desenvolvimento
 ├── bash/                 # Configuração Bash
 │   ├── rc                # Runtime configuration
 │   ├── profile           # Environment variables
@@ -121,14 +125,13 @@ Este projeto automatiza a configuração completa de um ambiente Ubuntu Desktop 
 ```bash
 # 1. Clonar o repositório
 git clone https://github.com/pahagon/my-ubuntu-desktop.git ~/dot
-cd ~/dot
+cd ~/dot/ansible
 
-# 2. Executar bootstrap (cria symlinks dos dotfiles)
-./bootstrap
+# 2. Ambiente mínimo (symlinks, vim, tmux, node, python, github-cli, claude-code)
+ansible-playbook desktop-minimal.yml -K
 
-# 3. Instalar ferramentas via Ansible
-cd ansible
-ansible-playbook workstation.yml --ask-become-pass
+# 3. (Opcional) Ambiente completo
+ansible-playbook desktop-full.yml -K
 
 # 4. (Opcional) Instalar dependências binárias
 cd ..
@@ -141,16 +144,22 @@ Você pode instalar componentes específicos:
 
 ```bash
 # Instalar apenas Docker
-ansible-playbook ansible/docker.yml --ask-become-pass
+ansible-playbook ansible/docker.yml -K
 
 # Instalar Python + ASDF
-ansible-playbook ansible/python.yml --ask-become-pass
+ansible-playbook ansible/python.yml -K
 
 # Instalar Node.js
-ansible-playbook ansible/nodejs.yml --ask-become-pass
+ansible-playbook ansible/node.yml -K
 
 # Instalar Emacs
-ansible-playbook ansible/emacs.yml --ask-become-pass
+ansible-playbook ansible/emacs27.yml -K
+
+# Instalar Vim
+ansible-playbook ansible/vim.yml -K
+
+# Instalar Claude Code
+ansible-playbook ansible/claude-code.yml -K
 ```
 
 ### Dependências Binárias
@@ -304,7 +313,7 @@ Edite `git/gitconfig:1`:
 
 - **Tamanho do repositório git**: ~23MB (limpo!)
 - **Working directory**: ~1.8GB (com binários locais)
-- **Ansible playbooks**: 18+
+- **Ansible playbooks**: 20+
 - **Emacs packages**: 50+
 - **Linguagens suportadas**: Python, Node.js, Go, Ruby, Java, Elixir
 - **Commits**: Seguem [Conventional Commits](semantic-commit-messages.md)
