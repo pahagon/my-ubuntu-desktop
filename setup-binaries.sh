@@ -59,43 +59,6 @@ install_arduino_cli() {
 }
 
 # ===============================================
-# Cursor IDE
-# ===============================================
-install_cursor() {
-    log_info "Instalando Cursor IDE..."
-
-    # Detectar a última versão instalada
-    LATEST_CURSOR=$(ls -1 "$BIN_DIR"/Cursor-*.AppImage 2>/dev/null | sort -V | tail -n1)
-
-    if [ -n "$LATEST_CURSOR" ]; then
-        log_warn "Cursor já instalado: $(basename "$LATEST_CURSOR")"
-        read -p "Deseja baixar a versão mais recente? (s/N): " -n 1 -r
-        echo
-        if [[ ! $REPLY =~ ^[Ss]$ ]]; then
-            log_info "Pulando instalação do Cursor"
-            return
-        fi
-    fi
-
-    # URL da última versão do Cursor (pode variar - verificar site oficial)
-    log_info "Buscando última versão do Cursor..."
-    CURSOR_URL="https://downloader.cursor.sh/linux/appImage/x64"
-
-    log_info "Baixando Cursor IDE..."
-    CURSOR_FILE="$BIN_DIR/Cursor-latest.AppImage"
-
-    if curl -fsSL "$CURSOR_URL" -o "$CURSOR_FILE"; then
-        chmod +x "$CURSOR_FILE"
-        log_info "Cursor instalado com sucesso em $CURSOR_FILE"
-        log_info "Você pode renomear o arquivo para incluir a versão específica"
-    else
-        log_error "Falha ao baixar Cursor IDE"
-        rm -f "$CURSOR_FILE"
-        return 1
-    fi
-}
-
-# ===============================================
 # Menu principal
 # ===============================================
 show_menu() {
@@ -104,16 +67,13 @@ show_menu() {
     echo "  Setup de Dependências Binárias"
     echo "========================================="
     echo "1) Instalar Arduino CLI"
-    echo "2) Instalar Cursor IDE"
-    echo "3) Instalar tudo"
-    echo "4) Sair"
+    echo "2) Sair"
     echo "========================================="
 }
 
 main() {
     if [ "$1" == "--all" ]; then
         install_arduino_cli
-        install_cursor
         exit 0
     fi
 
@@ -126,13 +86,6 @@ main() {
                 install_arduino_cli
                 ;;
             2)
-                install_cursor
-                ;;
-            3)
-                install_arduino_cli
-                install_cursor
-                ;;
-            4)
                 log_info "Saindo..."
                 exit 0
                 ;;

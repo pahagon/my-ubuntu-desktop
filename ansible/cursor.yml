@@ -1,0 +1,22 @@
+---
+  - name: "Install Cursor IDE"
+    hosts: localhost
+    connection: local
+    vars_files:
+      - common_vars.yml
+    vars:
+      cursor_url: "https://downloader.cursor.sh/linux/appImage/x64"
+      cursor_dest: "{{ my_home }}/bin/Cursor-latest.AppImage"
+    tasks:
+      - name: Install curl
+        package:
+          name: curl
+          state: present
+        become: true
+
+      - name: Download Cursor IDE AppImage
+        get_url:
+          url: "{{ cursor_url }}"
+          dest: "{{ cursor_dest }}"
+          mode: "0755"
+          force: true
