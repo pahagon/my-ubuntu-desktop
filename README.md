@@ -32,7 +32,7 @@ Este projeto automatiza a configuração completa de um ambiente Ubuntu Desktop 
   - GitHub Copilot integration
   - LSP support
 - **Vim**: Configuração com plugins (Vundle, Supertab, language support)
-- **Cursor IDE**: Suporte para múltiplas versões via AppImage
+- **Cursor IDE**: Instalação via `ansible/cursor.yml`
 
 ### Ambiente Shell
 - **Bash**: Configuração modular com aliases, functions e completions
@@ -75,6 +75,7 @@ Este projeto automatiza a configuração completa de um ambiente Ubuntu Desktop 
 │   ├── vim.yml               # Instalação do Vim
 │   ├── virtualbox.yml        # Instalação do VirtualBox
 │   ├── claude-code.yml       # Instalação do Claude Code
+│   ├── cursor.yml            # Instalação do Cursor IDE
 │   ├── desktop-minimal.yml   # Ambiente mínimo de desenvolvimento
 │   └── desktop-full.yml      # Ambiente completo de desenvolvimento
 ├── bash/                 # Configuração Bash
@@ -165,19 +166,17 @@ ansible-playbook ansible/claude-code.yml -K
 
 ### Dependências Binárias
 
-Binários grandes (AppImages, executáveis) não são versionados no git. Use o script de setup:
+O script `setup-binaries.sh` oferece instalação interativa de:
+- **Arduino CLI**: Para desenvolvimento Arduino
 
 ```bash
 ./setup-binaries.sh
 ```
 
-O script oferece instalação interativa de:
-- **Arduino CLI**: Para desenvolvimento Arduino
-- **Cursor IDE**: Editor moderno baseado em VS Code
+### Cursor IDE
 
-Para instalar tudo automaticamente:
 ```bash
-./setup-binaries.sh --all
+ansible-playbook ansible/cursor.yml
 ```
 
 ## 🔧 Configuração

@@ -430,6 +430,21 @@ claude --version
 
 ---
 
+### cursor.yml
+**Descrição**: Instala o Cursor IDE baixando o AppImage mais recente.
+
+**Uso**:
+```bash
+ansible-playbook cursor.yml
+```
+
+**Verificar instalação**:
+```bash
+~/bin/Cursor-latest.AppImage --version
+```
+
+---
+
 ## 📄 Arquivos Compartilhados
 
 ### common_vars.yml
