@@ -10,7 +10,9 @@
         apt:
           update_cache: yes
 
-      - name: Install vim
+      - name: Install vim and curl
         package:
-          name: vim
+          name:
+            - vim
+            - curl
           state: latest

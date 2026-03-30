@@ -20,3 +20,20 @@ log
 *.rb.LOCAL.*.rb
 *.rb.REMOTE.*.rb
 
+# vim-plug
+vim/plugged/
+vim/autoload/
+
+# environment & secrets
+.env
+.envrc
+*.pem
+*.key
+
+# languages & tools
+node_modules/
+__pycache__/
+.python-version
+.node-version
+.tool-versions
+
