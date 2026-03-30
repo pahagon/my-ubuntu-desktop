@@ -12,52 +12,77 @@ Este diretório contém playbooks Ansible para automação da instalação e con
 
 ## 🚀 Uso Rápido
 
-### Instalar Tudo
+### Ambiente Mínimo
 
 ```bash
 cd ansible
-ansible-playbook workstation.yml --ask-become-pass
+ansible-playbook desktop-minimal.yml -K
+```
+
+### Ambiente Completo
+
+```bash
+cd ansible
+ansible-playbook desktop-full.yml -K
 ```
 
 ### Instalar Componente Específico
 
 ```bash
 # Exemplo: Instalar apenas Docker
-ansible-playbook docker.yml --ask-become-pass
+ansible-playbook docker.yml -K
 ```
 
 ### Modo Dry-run (teste sem executar)
 
 ```bash
-ansible-playbook workstation.yml --check --ask-become-pass
+ansible-playbook desktop-minimal.yml --check -K
 ```
 
 ---
 
 ## 📦 Playbooks Disponíveis
 
-### workstation.yml
-**Descrição**: Playbook principal que instala ferramentas essenciais e cria symlinks dos dotfiles.
+### desktop-minimal.yml
+**Descrição**: Perfil de instalação para ambiente mínimo de desenvolvimento.
 
-**O que instala**:
-- Firefox
-- GNOME Tweaks
-- Git, Vim, Tmux
-- Rxvt-unicode (terminal)
-- Powerline (status line)
-- Python 3 + pip
-- Curl, htop, xsel
-- LastPass CLI
-- Markdown, genisoimage
+**Inclui**:
+- workstation.yml, vim.yml, tmux.yml, powerline-fonts.yml
+- node.yml, python.yml, github-cli.yml, claude-code.yml
 
 **Uso**:
 ```bash
-ansible-playbook workstation.yml --ask-become-pass
+ansible-playbook desktop-minimal.yml -K
 ```
 
-**Pré-requisitos**: Nenhum
+---
 
-**Nota**: Este é o ponto de entrada recomendado para setup inicial.
+### desktop-full.yml
+**Descrição**: Perfil de instalação completo — estende o minimal com todas as ferramentas.
+
+**Inclui** (além do minimal):
+- docker.yml, chrome.yml, golang.yml, java.yml
+- ruby.yml, emacs27.yml, theme-icons.yml, virtualbox.yml, qemu.yml
+
+**Uso**:
+```bash
+ansible-playbook desktop-full.yml -K
+```
+
+---
+
+### workstation.yml
+**Descrição**: Cria symlinks dos dotfiles e configura o locale `en_US.UTF-8`.
+
+**O que faz**:
+- Cria symlinks de todos os dotfiles para `$HOME`
+- Gera o locale `en_US.UTF-8`
+- Configura layout de teclado
+
+**Uso**:
+```bash
+ansible-playbook workstation.yml -K
+```
 
 ---
 
@@ -71,7 +96,7 @@ ansible-playbook workstation.yml --ask-become-pass
 
 **Uso**:
 ```bash
-ansible-playbook docker.yml --ask-become-pass
+ansible-playbook docker.yml -K
 ```
 
 **Pós-instalação**: Faça logout/login para que grupo docker tenha efeito.
@@ -96,7 +121,7 @@ docker run hello-world
 
 **Uso**:
 ```bash
-ansible-playbook python.yml --ask-become-pass
+ansible-playbook python.yml -K
 ```
 
 **Pré-requisitos**: ASDF instalado (ou será instalado automaticamente)
@@ -132,7 +157,7 @@ asdf local python 3.12.2
 
 **Uso**:
 ```bash
-ansible-playbook node.yml --ask-become-pass
+ansible-playbook node.yml -K
 ```
 
 **Verificar instalação**:
@@ -155,7 +180,7 @@ yarn --version
 
 **Uso**:
 ```bash
-ansible-playbook golang.yml --ask-become-pass
+ansible-playbook golang.yml -K
 ```
 
 **Verificar instalação**:
@@ -177,7 +202,7 @@ go version
 
 **Uso**:
 ```bash
-ansible-playbook ruby.yml --ask-become-pass
+ansible-playbook ruby.yml -K
 ```
 
 **Verificar instalação**:
@@ -198,7 +223,7 @@ gem --version
 
 **Uso**:
 ```bash
-ansible-playbook java.yml --ask-become-pass
+ansible-playbook java.yml -K
 ```
 
 **Verificar instalação**:
@@ -219,7 +244,7 @@ echo $JAVA_HOME
 
 **Uso**:
 ```bash
-ansible-playbook emacs27.yml --ask-become-pass
+ansible-playbook emacs27.yml -K
 ```
 
 **Pré-requisitos**: Ubuntu 24.04 LTS
@@ -242,7 +267,7 @@ emacs --version
 
 **Uso**:
 ```bash
-ansible-playbook chrome.yml --ask-become-pass
+ansible-playbook chrome.yml -K
 ```
 
 **Verificar instalação**:
@@ -261,7 +286,7 @@ google-chrome --version
 
 **Uso**:
 ```bash
-ansible-playbook github-cli.yml --ask-become-pass
+ansible-playbook github-cli.yml -K
 ```
 
 **Pós-instalação**: Autenticar com GitHub
@@ -287,7 +312,7 @@ gh auth status
 
 **Uso**:
 ```bash
-ansible-playbook virtualbox.yml --ask-become-pass
+ansible-playbook virtualbox.yml -K
 ```
 
 **Verificar instalação**:
@@ -308,7 +333,7 @@ VBoxManage --version
 
 **Uso**:
 ```bash
-ansible-playbook qemu.yml --ask-become-pass
+ansible-playbook qemu.yml -K
 ```
 
 **Pós-instalação**: Adicionar usuário ao grupo libvirt
@@ -334,7 +359,7 @@ virsh version
 
 **Uso**:
 ```bash
-ansible-playbook theme-icons.yml --ask-become-pass
+ansible-playbook theme-icons.yml -K
 ```
 
 **Aplicar tema**:
@@ -348,22 +373,60 @@ gsettings set org.gnome.desktop.interface icon-theme 'Papirus'
 
 ---
 
-### droidcam.yml
-**Descrição**: Instala DroidCam para usar smartphone como webcam.
-
-**O que instala**:
-- DroidCam client
-- Kernel modules necessários
+### vim.yml
+**Descrição**: Instala Vim e curl (dependência do vim-plug).
 
 **Uso**:
 ```bash
-ansible-playbook droidcam.yml --ask-become-pass
+ansible-playbook vim.yml -K
 ```
 
-**Pós-instalação**:
-1. Instalar app DroidCam no smartphone
-2. Conectar via USB ou WiFi
-3. Iniciar `droidcam`
+**Verificar instalação**:
+```bash
+vim --version
+```
+
+---
+
+### tmux.yml
+**Descrição**: Instala tmux.
+
+**Uso**:
+```bash
+ansible-playbook tmux.yml -K
+```
+
+**Verificar instalação**:
+```bash
+tmux -V
+```
+
+---
+
+### powerline-fonts.yml
+**Descrição**: Instala as fontes Powerline (`fonts-powerline`).
+
+**Uso**:
+```bash
+ansible-playbook powerline-fonts.yml -K
+```
+
+---
+
+### claude-code.yml
+**Descrição**: Instala o Claude Code via npm global.
+
+**Pré-requisitos**: Node.js instalado via `node.yml`.
+
+**Uso**:
+```bash
+ansible-playbook claude-code.yml
+```
+
+**Verificar instalação**:
+```bash
+claude --version
+```
 
 ---
 
@@ -438,25 +501,23 @@ Crie um novo arquivo `minha-ferramenta.yml`:
 
 Execute:
 ```bash
-ansible-playbook minha-ferramenta.yml --ask-become-pass
+ansible-playbook minha-ferramenta.yml -K
 ```
 
 ### Criar Profile de Instalação
 
-Combine múltiplos playbooks em um novo arquivo `dev-complete.yml`:
+Use `desktop-minimal.yml` como base ou crie um perfil customizado:
 
 ```yaml
 ---
-- import_playbook: workstation.yml
+- import_playbook: desktop-minimal.yml
 - import_playbook: docker.yml
-- import_playbook: python.yml
-- import_playbook: node.yml
 - import_playbook: golang.yml
 ```
 
 Execute:
 ```bash
-ansible-playbook dev-complete.yml --ask-become-pass
+ansible-playbook meu-perfil.yml -K
 ```
 
 ---
@@ -473,9 +534,9 @@ ansible-playbook dev-complete.yml --ask-become-pass
 
 **Problema**: Tarefa requer privilégios sudo.
 
-**Solução**: Use a flag `--ask-become-pass`:
+**Solução**: Use a flag `-K`:
 ```bash
-ansible-playbook playbook.yml --ask-become-pass
+ansible-playbook playbook.yml -K
 ```
 
 ### Erro: "Module not found"
@@ -505,7 +566,7 @@ exec bash
 
 **Solução**: Use cache de fatos:
 ```bash
-ansible-playbook playbook.yml --ask-become-pass --fact-caching
+ansible-playbook playbook.yml -K --fact-caching
 ```
 
 ### Verificar sintaxe antes de executar
@@ -517,7 +578,7 @@ ansible-playbook playbook.yml --syntax-check
 ### Modo verbose para debug
 
 ```bash
-ansible-playbook playbook.yml -vvv --ask-become-pass
+ansible-playbook playbook.yml -vvv -K
 ```
 
 ---
@@ -552,4 +613,4 @@ Ao criar ou modificar playbooks:
 
 ---
 
-**Última atualização**: 2025-12-18
+**Última atualização**: 2026-03-30
