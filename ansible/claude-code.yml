@@ -1,0 +1,12 @@
+---
+  - name: "Install Claude Code"
+    hosts: localhost
+    connection: local
+    vars_files:
+      - common_vars.yml
+    tasks:
+      - name: Install Claude Code via npm
+        npm:
+          name: "@anthropic-ai/claude-code"
+          global: yes
+          state: latest
