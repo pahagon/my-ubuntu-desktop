@@ -55,15 +55,24 @@ Este projeto automatiza a configuração completa de um ambiente Ubuntu Desktop 
 
 ```
 .
-├── ansible/              # Playbooks Ansible (18+ playbooks)
-│   ├── common_tasks.yml  # Tarefas reutilizáveis
-│   ├── common_vars.yml   # Variáveis compartilhadas
-│   ├── workstation.yml   # Playbook principal
-│   ├── docker.yml        # Instalação do Docker
-│   ├── python.yml        # Setup Python via ASDF
-│   ├── nodejs.yml        # Setup Node.js
-│   ├── emacs.yml         # Instalação do Emacs
-│   └── ...               # Outros playbooks
+├── ansible/                  # Playbooks Ansible
+│   ├── common_tasks.yml      # Tarefas reutilizáveis
+│   ├── common_vars.yml       # Variáveis compartilhadas
+│   ├── workstation.yml       # Playbook principal (symlinks + locale)
+│   ├── chrome.yml            # Instalação do Google Chrome
+│   ├── docker.yml            # Instalação do Docker
+│   ├── emacs27.yml           # Instalação do Emacs 27
+│   ├── github-cli.yml        # Instalação do GitHub CLI
+│   ├── golang.yml            # Setup Go via ASDF
+│   ├── java.yml              # Setup Java via ASDF
+│   ├── node.yml              # Setup Node.js via ASDF
+│   ├── powerline-fonts.yml   # Instalação das fontes Powerline
+│   ├── python.yml            # Setup Python via ASDF
+│   ├── qemu.yml              # Instalação do QEMU
+│   ├── ruby.yml              # Setup Ruby via ASDF
+│   ├── theme-icons.yml       # Instalação de temas e ícones
+│   ├── tmux.yml              # Instalação do tmux
+│   └── virtualbox.yml        # Instalação do VirtualBox
 ├── bash/                 # Configuração Bash
 │   ├── rc                # Runtime configuration
 │   ├── profile           # Environment variables
