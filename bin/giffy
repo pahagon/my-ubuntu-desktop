@@ -8,14 +8,15 @@
 
 filename=$(basename "$1")
 filename="${filename%.*}"
-if [[ -f $1 ]]; then
-  # # for retina recorded videos:
-  ffmpeg -i $1 -vf scale=iw/2:-1 -pix_fmt rgb24 "${filename}.gif" 2>&1 > /dev/null && \
-  # ffmpeg -i $1 -pix_fmt rgb24 "${filename}.gif" 2>&1 > /dev/null && \
+if [[ -f "$1" ]]; then
+  # for retina recorded videos:
+  ffmpeg -i "$1" -vf scale=iw/2:-1 -pix_fmt rgb24 "${filename}.gif" > /dev/null 2>&1 && \
     echo "* ffmpeg gif'd" && \
     convert -layers Optimize "${filename}.gif" "${filename}_optimized.gif" && \
     echo "* imagemagic optimized" && \
     rm "${filename}.gif"
+  # Alternative: for original size videos, uncomment below and comment above ffmpeg line
+  # ffmpeg -i "$1" -pix_fmt rgb24 "${filename}.gif" > /dev/null 2>&1
 else
   echo "No file found."
 fi

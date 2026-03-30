@@ -1,0 +1,63 @@
+- name: Install DroidCam CLI on Linux
+  hosts: localhost
+  become: true
+  vars_files:
+    - common_vars.yml
+  tasks:
+    - name: Update package lists
+      become: true
+      apt:
+        update_cache: yes
+
+    - name: Install dependencies
+      apt:
+        name:
+          - v4l2loopback-dkms
+          - adb
+          - wget
+          - unzip
+          - libavutil-dev
+          - libswscale-dev
+          - libasound2-dev
+          - libspeex-dev
+          - libusbmuxd-dev
+          - libplist-dev
+          - libturbojpeg0-dev
+        state: present
+
+    - name: Download DroidCam
+      get_url:
+        url: "https://files.dev47apps.net/linux/droidcam_latest.zip"
+        dest: "/tmp/droidcam_latest.zip"
+
+    - name: "it creates tmp dir"
+      file:
+        path: "/tmp/droidcam-install/"
+        owner: '{{ my_user }}'
+        group: '{{ my_group }}'
+        state: directory
+
+    - name: Extract DroidCam
+      unarchive:
+        src: "/tmp/droidcam_latest.zip"
+        dest: "/tmp/droidcam-install/"
+        remote_src: yes
+
+    - name: Install DroidCam
+      become: true
+      command: "sudo /tmp/droidcam-install/install-client"
+
+    - name: Set permissions for video device
+      file:
+        path: "/dev/video0"
+        mode: '0666'
+        state: touch
+
+    - name: Enable USB debugging (Optional)
+      command: "adb start-server"
+      ignore_errors: yes
+
+    - name: Cleanup installation files
+      file:
+        path: "/tmp/droidcam_latest.zip"
+        state: absent

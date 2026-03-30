@@ -5,30 +5,13 @@
     - ubuntu-desktop
 
   snaps:
-    - name: firefox
-    - name: snap-store
-    - name: snapd-desktop-integration
-    - name: gnome-tweaks
-    - name: git
-    - name: vim
-    - name: rxvt-unicode
-    - name: fonts-powerline
-    - name: xsel
-    - name: htop
-    - name: curl
-    - name: markdown
     - name: ansible
-    - name: genisoimage
 
   # Subiquity will, by default, configure a partition layout using LVM.
   # The 'direct' layout method shown here will produce a non-LVM result.
   storage:
     layout:
       name: direct
-
-  # Ubuntu Desktop uses the hwe flavor kernel by default.
-  #early-commands:
-  #  - echo 'linux-generic-hwe-22.04' > /run/kernel-meta-package
 
   late-commands:
     # Let NetworkManager handle network

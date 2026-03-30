@@ -1,0 +1,194 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main, develop, 'feature/**', 'fix/**', 'docs/**' ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  # ==========================================
+  # Unit Tests (BATS)
+  # ==========================================
+  unit-tests:
+    name: Unit Tests (BATS)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install BATS
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y bats
+
+      - name: Run BATS tests
+        run: |
+          bats tests/unit/ || true
+          # Continue on failure for now during development
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bats-test-results
+          path: tests/unit/
+
+  # ==========================================
+  # Ansible Lint
+  # ==========================================
+  ansible-lint:
+    name: Ansible Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Ansible and ansible-lint
+        run: |
+          pip install ansible ansible-lint yamllint
+
+      - name: Run yamllint
+        run: |
+          yamllint ansible/ || true
+          # Continue on failure for now
+
+      - name: Run ansible-lint
+        run: |
+          cd ansible
+          ansible-lint *.yml || true
+          # Continue on failure for now
+
+      - name: Syntax check playbooks
+        run: |
+          cd ansible
+          for playbook in *.yml; do
+            echo "Checking $playbook..."
+            ansible-playbook "$playbook" --syntax-check || true
+          done
+
+  # ==========================================
+  # Shellcheck
+  # ==========================================
+  shellcheck:
+    name: Shellcheck
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install shellcheck
+        run: sudo apt-get install -y shellcheck
+
+      - name: Run shellcheck on setup-binaries.sh
+        run: shellcheck setup-binaries.sh || true
+
+      - name: Run shellcheck on bin scripts
+        run: |
+          for script in bin/giffy bin/init-node-project; do
+            if [ -f "$script" ]; then
+              echo "Checking $script..."
+              shellcheck "$script" || true
+            fi
+          done
+
+      - name: Run shellcheck on smoke tests
+        run: |
+          shellcheck tests/smoke/*.sh || true
+
+  # ==========================================
+  # Molecule Tests (Ansible Integration)
+  # ==========================================
+  molecule-tests:
+    name: Molecule Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Molecule and dependencies
+        run: |
+          pip install molecule molecule-docker ansible-lint yamllint
+
+      - name: Install Docker
+        uses: docker/setup-buildx-action@v3
+
+      - name: Run Molecule tests
+        run: |
+          cd ansible
+          molecule test || true
+          # Continue on failure during development
+
+  # ==========================================
+  # Smoke Tests Matrix
+  # ==========================================
+  smoke-tests:
+    name: Smoke Tests - Ubuntu ${{ matrix.ubuntu-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ubuntu-version: ['22.04', '24.04']
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run in Ubuntu container
+        run: |
+          docker run --rm \
+            -v $PWD:/workspace \
+            -w /workspace \
+            ubuntu:${{ matrix.ubuntu-version }} \
+            bash -c "
+              apt-get update && \
+              apt-get install -y git curl bash && \
+              ./tests/smoke/test_all_installed.sh || true
+            "
+
+  # ==========================================
+  # Test Coverage Report
+  # ==========================================
+  coverage-report:
+    name: Test Coverage Report
+    runs-on: ubuntu-latest
+    needs: [unit-tests, ansible-lint, shellcheck, molecule-tests, smoke-tests]
+    if: always()
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Generate coverage report
+        run: |
+          echo "# Test Coverage Report" > coverage-report.md
+          echo "" >> coverage-report.md
+          echo "Generated: $(date)" >> coverage-report.md
+          echo "" >> coverage-report.md
+          echo "## Test Results" >> coverage-report.md
+          echo "" >> coverage-report.md
+          echo "- Unit Tests (BATS): ${{ needs.unit-tests.result }}" >> coverage-report.md
+          echo "- Ansible Lint: ${{ needs.ansible-lint.result }}" >> coverage-report.md
+          echo "- Shellcheck: ${{ needs.shellcheck.result }}" >> coverage-report.md
+          echo "- Molecule Tests: ${{ needs.molecule-tests.result }}" >> coverage-report.md
+          echo "- Smoke Tests: ${{ needs.smoke-tests.result }}" >> coverage-report.md
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage-report.md

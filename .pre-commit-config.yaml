@@ -1,0 +1,132 @@
+# Pre-commit hooks para garantir qualidade e segurança do código
+# Instalação: pip install pre-commit
+# Ativação: pre-commit install
+# Uso manual: pre-commit run --all-files
+
+repos:
+  # Hooks básicos de verificação
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      # Segurança - Previne commit de credenciais
+      - id: detect-private-key
+        name: Detectar chaves privadas
+        description: Impede commit de chaves SSH/TLS privadas
+
+      - id: detect-aws-credentials
+        name: Detectar credenciais AWS
+        description: Impede commit de AWS credentials
+        args: ['--allow-missing-credentials']
+
+      # Qualidade de arquivos
+      - id: check-added-large-files
+        name: Verificar arquivos grandes
+        description: Impede commit de arquivos > 500KB
+        args: ['--maxkb=500']
+
+      - id: check-merge-conflict
+        name: Verificar marcadores de merge conflict
+        description: Detecta marcadores não resolvidos (<<<<<<, >>>>>>)
+
+      - id: check-yaml
+        name: Validar sintaxe YAML
+        description: Verifica sintaxe de arquivos .yml e .yaml
+        exclude: 'ansible/.*\.yml$'  # Ansible tem sintaxe especial
+
+      - id: check-json
+        name: Validar sintaxe JSON
+        description: Verifica sintaxe de arquivos .json
+
+      - id: check-toml
+        name: Validar sintaxe TOML
+        description: Verifica sintaxe de arquivos .toml
+
+      - id: check-xml
+        name: Validar sintaxe XML
+        description: Verifica sintaxe de arquivos .xml
+
+      - id: end-of-file-fixer
+        name: Corrigir fim de arquivo
+        description: Garante que arquivos terminam com newline
+
+      - id: trailing-whitespace
+        name: Remover whitespace no final de linhas
+        description: Remove espaços em branco no final
+        args: [--markdown-linebreak-ext=md]
+
+      - id: mixed-line-ending
+        name: Verificar line endings mistos
+        description: Detecta mistura de LF/CRLF
+        args: ['--fix=lf']
+
+      - id: check-executables-have-shebangs
+        name: Verificar shebang em executáveis
+        description: Arquivos executáveis devem ter #!/bin/bash
+
+      - id: check-shebang-scripts-are-executable
+        name: Verificar permissão de scripts
+        description: Scripts com shebang devem ser executáveis
+
+  # Segurança avançada - Detecta secrets
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.4.0
+    hooks:
+      - id: detect-secrets
+        name: Detectar secrets (Yelp)
+        description: Escaneia por senhas, tokens, API keys
+        args: ['--baseline', '.secrets.baseline']
+        exclude: '.*/package-lock\.json$'
+
+  # Shellcheck - Linting de scripts Bash
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.9.0.6
+    hooks:
+      - id: shellcheck
+        name: Shellcheck (Bash linting)
+        description: Valida sintaxe e boas práticas de scripts bash
+        args: ['-x', '-e', 'SC1091']  # -x: follow source, -e: exclude SC1091
+
+  # YAML Linting para Ansible
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.33.0
+    hooks:
+      - id: yamllint
+        name: YAMLLint
+        description: Valida formatação de arquivos YAML
+        args: ['-c', '.yamllint.yaml']
+        files: '\.(yaml|yml)$'
+
+  # Markdown linting
+  - repo: https://github.com/markdownlint/markdownlint
+    rev: v0.12.0
+    hooks:
+      - id: markdownlint
+        name: MarkdownLint
+        description: Valida formatação de arquivos Markdown
+        args: ['--git-recurse', '--config', '.markdownlint.yaml']
+        exclude: 'node_modules|.github'
+
+  # Git commit message linting (Conventional Commits)
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v3.0.0
+    hooks:
+      - id: conventional-pre-commit
+        name: Conventional Commits
+        description: Valida mensagens de commit
+        stages: [commit-msg]
+        args: ['--force-scope']
+
+  # Trailing whitespace em arquivos de config
+  - repo: https://github.com/Lucas-C/pre-commit-hooks
+    rev: v1.5.4
+    hooks:
+      - id: remove-tabs
+        name: Remover tabs
+        description: Substitui tabs por espaços
+        args: ['--whitespaces-count', '2']
+        files: '\.(yml|yaml)$'
+
+# Configuração global
+default_stages: [commit]
+fail_fast: false
+minimum_pre_commit_version: '2.20.0'

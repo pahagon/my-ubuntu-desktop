@@ -1,0 +1,56 @@
+name: Test Ubuntu Autoinstall
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test-autoinstall:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-system libvirt-daemon-system genisoimage
+
+      - name: Generate autoinstall ISO
+        run: |
+          mkdir -p nocloud
+          cp ubuntu/autoinstall.yaml nocloud/user-data
+          echo "instance-id: ubuntu-autoinstall" > nocloud/meta-data
+          genisoimage -output autoinstall.iso -volid cidata -joliet -rock nocloud
+
+      # Baixar a ISO do Ubuntu
+      - name: Download Ubuntu ISO
+        run: |
+          curl -L -o https://deb.campolargo.pr.gov.br/ubuntu/releases/24.04.1/ubuntu-24.04.1-desktop-amd64.iso
+
+      # Testar o autoinstall usando QEMU
+      - name: Run QEMU for autoinstall
+        run: |
+          qemu-system-x86_64 \
+            -m 2048 \
+            -smp 2 \
+            -drive file=ubuntu.iso,media=cdrom \
+            -drive file=autoinstall.iso,media=cdrom \
+            -drive file=disk.img,format=qcow2,size=20G \
+            -nographic \
+            -boot d \
+            -kernel linux \
+            -append 'autoinstall ds=nocloud;s=/media/cdrom/'
+
+      # Verificar logs de instalação
+      - name: Check Installation Logs
+        run: |
+          if grep -q "Installation complete" /path/to/logs; then
+            echo "Installation succeeded!";
+          else
+            echo "Installation failed!";
+            exit 1;
+          fi
