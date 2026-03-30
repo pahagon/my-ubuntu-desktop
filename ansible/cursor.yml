@@ -6,7 +6,7 @@
       - common_vars.yml
     vars:
       cursor_url: "https://downloader.cursor.sh/linux/appImage/x64"
-      cursor_dest: "{{ my_home }}/bin/Cursor-latest.AppImage"
+      cursor_dest: "{{ my_bin }}/Cursor-latest.AppImage"
     tasks:
       - name: Install curl
         package:
