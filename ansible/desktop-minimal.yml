@@ -1,0 +1,9 @@
+---
+- import_playbook: workstation.yml
+- import_playbook: vim.yml
+- import_playbook: tmux.yml
+- import_playbook: powerline-fonts.yml
+- import_playbook: node.yml
+- import_playbook: python.yml
+- import_playbook: github-cli.yml
+- import_playbook: claude-code.yml
