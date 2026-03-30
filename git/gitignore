@@ -37,3 +37,6 @@ __pycache__/
 .node-version
 .tool-versions
 
+# emacs
+projectile.cache
+
