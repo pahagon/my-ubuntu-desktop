@@ -24,9 +24,12 @@ sudo apt install -y git ansible
 # -----------------------------------------------
 # Clonar repositório
 # -----------------------------------------------
-if [ -d "$DOT_DIR" ]; then
-    log_warn "Diretório $DOT_DIR já existe. Atualizando..."
+if [ -d "$DOT_DIR/.git" ]; then
+    log_warn "Repositório já existe em $DOT_DIR. Atualizando..."
     git -C "$DOT_DIR" pull
+elif [ -d "$DOT_DIR" ]; then
+    log_error "$DOT_DIR existe mas não é um repositório Git. Remova ou renomeie o diretório e tente novamente."
+    exit 1
 else
     log_info "Clonando repositório em $DOT_DIR..."
     git clone "$REPO_URL" "$DOT_DIR"
