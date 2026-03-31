@@ -5,7 +5,7 @@
     connection: local
     become: true
     vars_files:
-      - common_vars.yml 
+      - common_vars.yml
     tasks:
       - name: Add a google Apt signing key
         ansible.builtin.apt_key:
@@ -37,5 +37,5 @@
         user:
           name: '{{ my_user }}'
           state: present
-          groups: 'docker,{{ my_user }}'
+          groups: 'docker,{{ my_group }}'
           append: yes

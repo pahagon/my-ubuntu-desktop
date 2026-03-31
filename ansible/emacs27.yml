@@ -1,27 +1,20 @@
 ---
-- name: Install Emacs 27.1 on Ubuntu
+- name: Install Emacs on Ubuntu
   hosts: localhost
-  become: yes  # Use sudo
+  become: yes
   tasks:
-    - name: Install software-properties-common
+    - name: Install Emacs
       apt:
-        name: software-properties-common
+        name: emacs
         state: present
         update_cache: yes
 
-    - name: Download and add the GPG key for the PPA
-      get_url:
-        url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xF6BC817356A3D45E
-        dest: /etc/apt/keyrings/kelleyk_emacs.gpg
-        mode: '0644'
+    - name: Verify Emacs is installed
+      command: emacs --version
+      register: emacs_result
+      changed_when: false
 
-    - name: Add Emacs PPA
-      apt_repository:
-        repo: "deb [signed-by=/etc/apt/keyrings/kelleyk_emacs.gpg] http://ppa.launchpad.net/kelleyk/emacs/ubuntu focal main"
-        state: present
-        update_cache: yes
-
-    - name: Install Emacs 27
-      apt:
-        name: emacs27
-        state: present
+    - name: Assert Emacs is installed
+      assert:
+        that: emacs_result.rc == 0
+        fail_msg: "emacs não foi instalado corretamente"
