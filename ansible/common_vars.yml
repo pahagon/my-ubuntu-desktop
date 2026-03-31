@@ -8,7 +8,7 @@ my_init_author_email: pahagon@gmail.com
 # Versões de ferramentas — atualizar checksum ao trocar versão
 # arduino-cli: https://github.com/arduino/arduino-cli/releases
 arduino_cli_version: "1.1.1"
-arduino_cli_checksum: "sha256:2b807add5c3a518861bfd4d3e78de9e02b0a2723df3d90386df2200a767349c4
+arduino_cli_checksum: "sha256:2b807add5c3a518861bfd4d3e78de9e02b0a2723df3d90386df2200a767349c4"
 
 # cursor: não suporta pinning de versão via URL oficial
 # validar manualmente após download: sha256sum ~/bin/Cursor-latest.AppImage

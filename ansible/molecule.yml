@@ -1,0 +1,37 @@
+---
+- name: Install Molecule
+  hosts: localhost
+  connection: local
+  vars_files:
+    - common_vars.yml
+
+  tasks:
+    - name: Install pipx
+      apt:
+        name: pipx
+        state: present
+        update_cache: yes
+      become: true
+
+    - name: Ensure pipx path is configured
+      command: pipx ensurepath
+      changed_when: false
+
+    - name: Install molecule via pipx with docker plugin
+      command: pipx install "molecule[docker]"
+      args:
+        creates: "{{ my_home }}/.local/bin/molecule"
+
+    - name: Inject molecule-plugins[docker] into molecule venv
+      command: pipx inject molecule "molecule-plugins[docker]" ansible
+      changed_when: false
+
+    - name: Verify molecule is available
+      command: "{{ my_home }}/.local/bin/molecule --version"
+      register: molecule_result
+      changed_when: false
+
+    - name: Assert molecule is installed
+      assert:
+        that: molecule_result.rc == 0
+        fail_msg: "molecule não foi instalado corretamente"

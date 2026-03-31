@@ -41,3 +41,6 @@ source $HOME/dot/bash/powerline
 source $HOME/dot/bash/asdf
 source $HOME/dot/bash/rc
 
+
+# Created by `pipx` on 2026-03-31 17:38:14
+export PATH="$PATH:/home/paulo.ahagon/.local/bin"

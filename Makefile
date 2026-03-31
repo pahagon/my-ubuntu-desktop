@@ -11,6 +11,8 @@ VM_DISK_SIZE := 10000
 
 MOLECULE_SCENARIOS := vim tmux docker
 
+export PATH := $(HOME)/.local/bin:$(PATH)
+
 .PHONY: all vm-test test test-all clean \
         download_iso create_vm create_autoinstall_iso attach_iso start_vm \
         $(addprefix test-,$(MOLECULE_SCENARIOS))
