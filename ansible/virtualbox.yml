@@ -44,7 +44,7 @@
 
     - name: Install VirtualBox
       apt:
-        name: virtualbox-7.0
+        name: virtualbox-7.2
         state: present
       notify: Rebuild VirtualBox kernel modules
 
