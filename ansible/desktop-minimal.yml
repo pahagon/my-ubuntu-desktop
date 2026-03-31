@@ -1,5 +1,6 @@
 ---
 - import_playbook: workstation.yml
+- import_playbook: xsel.yml
 - import_playbook: vim.yml
 - import_playbook: tmux.yml
 - import_playbook: powerline-fonts.yml

@@ -373,6 +373,21 @@ gsettings set org.gnome.desktop.interface icon-theme 'Papirus'
 
 ---
 
+### xsel.yml
+**Descrição**: Instala xsel para integração do clipboard com o terminal.
+
+**Uso**:
+```bash
+ansible-playbook xsel.yml -K
+```
+
+**Verificar instalação**:
+```bash
+xsel --version
+```
+
+---
+
 ### vim.yml
 **Descrição**: Instala Vim e curl (dependência do vim-plug).
 
