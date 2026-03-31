@@ -1,0 +1,35 @@
+---
+  - name: "Install Arduino CLI"
+    hosts: localhost
+    connection: local
+    vars_files:
+      - common_vars.yml
+    vars:
+      arduino_url: "https://downloads.arduino.cc/arduino-cli/arduino-cli_latest_Linux_64bit.tar.gz"
+      arduino_tmp: "/tmp/arduino-cli.tar.gz"
+    tasks:
+      - name: Install curl
+        package:
+          name: curl
+          state: present
+        become: true
+
+      - name: Download Arduino CLI
+        get_url:
+          url: "{{ arduino_url }}"
+          dest: "{{ arduino_tmp }}"
+          force: true
+
+      - name: Extract Arduino CLI to bin
+        unarchive:
+          src: "{{ arduino_tmp }}"
+          dest: "{{ my_bin }}"
+          include:
+            - arduino-cli
+          mode: "0755"
+          remote_src: true
+
+      - name: Remove temporary archive
+        file:
+          path: "{{ arduino_tmp }}"
+          state: absent

@@ -9,3 +9,5 @@
 - import_playbook: theme-icons.yml
 - import_playbook: virtualbox.yml
 - import_playbook: qemu.yml
+- import_playbook: cursor.yml
+- import_playbook: arduino-cli.yml

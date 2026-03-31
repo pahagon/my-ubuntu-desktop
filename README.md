@@ -47,7 +47,7 @@ Este projeto automatiza a configuração completa de um ambiente Ubuntu Desktop 
   - Go 1.17.1
   - Ruby 3.0.1
 - **Docker & Docker Compose**
-- **Arduino CLI** para desenvolvimento Arduino
+- **Arduino CLI** para desenvolvimento Arduino via `ansible/arduino-cli.yml`
 - **AWS CLI** com configuração de ambientes
 - **Terraform** support
 
@@ -76,6 +76,7 @@ Este projeto automatiza a configuração completa de um ambiente Ubuntu Desktop 
 │   ├── virtualbox.yml        # Instalação do VirtualBox
 │   ├── claude-code.yml       # Instalação do Claude Code
 │   ├── cursor.yml            # Instalação do Cursor IDE
+│   ├── arduino-cli.yml       # Instalação do Arduino CLI
 │   ├── desktop-minimal.yml   # Ambiente mínimo de desenvolvimento
 │   └── desktop-full.yml      # Ambiente completo de desenvolvimento
 ├── bash/                 # Configuração Bash
@@ -108,7 +109,6 @@ Este projeto automatiza a configuração completa de um ambiente Ubuntu Desktop 
 │   └── config            # SSH client config
 ├── autoinstall.yml       # Ubuntu cloud-init autoinstall
 ├── Makefile              # Automação VirtualBox
-├── setup-binaries.sh     # Download de dependências binárias
 └── .github/workflows/    # GitHub Actions CI/CD
 
 ```
@@ -164,13 +164,10 @@ ansible-playbook ansible/vim.yml -K
 ansible-playbook ansible/claude-code.yml -K
 ```
 
-### Dependências Binárias
-
-O script `setup-binaries.sh` oferece instalação interativa de:
-- **Arduino CLI**: Para desenvolvimento Arduino
+### Arduino CLI
 
 ```bash
-./setup-binaries.sh
+ansible-playbook ansible/arduino-cli.yml
 ```
 
 ### Cursor IDE
