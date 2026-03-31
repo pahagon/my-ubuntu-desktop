@@ -445,6 +445,21 @@ ansible-playbook cursor.yml
 
 ---
 
+### arduino-cli.yml
+**Descrição**: Baixa e instala o Arduino CLI em `~/bin/`.
+
+**Uso**:
+```bash
+ansible-playbook arduino-cli.yml
+```
+
+**Verificar instalação**:
+```bash
+arduino-cli version
+```
+
+---
+
 ## 📄 Arquivos Compartilhados
 
 ### common_vars.yml
