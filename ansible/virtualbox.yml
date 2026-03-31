@@ -30,27 +30,33 @@
       apt:
         update_cache: yes
 
-    - name: Install VirtualBox
-      apt:
-        name: virtualbox-7.0  # Replace 7.0 with the desired version
-        state: present
-
     - name: Get linux kernel release
-      shell: uname -r
+      command: uname -r
       register: kernel_release
-      
-    - name: Ensure required kernel modules are installed
+      changed_when: false
+
+    - name: Install dkms and kernel headers
       apt:
         name:
           - dkms
           - linux-headers-{{ kernel_release.stdout }}
         state: present
 
+    - name: Install VirtualBox
+      apt:
+        name: virtualbox-7.2
+        state: present
+      notify: Rebuild VirtualBox kernel modules
+
     - name: Verify VirtualBox installation
       command: vboxmanage --version
       register: vbox_version
+      changed_when: false
       failed_when: vbox_version.rc != 0
 
-    - name: Display VirtualBox version
-      debug:
-        msg: "VirtualBox installed successfully. Version: {{ vbox_version.stdout }}"
+  handlers:
+    - name: Rebuild VirtualBox kernel modules
+      command: /sbin/vboxconfig
+      # Recompila o módulo vboxdrv para o kernel atual.
+      # O DKMS faz isso automaticamente em atualizações de kernel,
+      # mas é necessário forçar na primeira instalação.

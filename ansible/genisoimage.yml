@@ -1,0 +1,11 @@
+---
+- name: Install genisoimage
+  hosts: localhost
+  become: true
+
+  tasks:
+    - name: Install genisoimage
+      apt:
+        name: genisoimage
+        state: present
+        update_cache: yes
