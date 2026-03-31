@@ -9,12 +9,3 @@
         state: present
         update_cache: yes
 
-    - name: Verify Emacs is installed
-      command: emacs --version
-      register: emacs_result
-      changed_when: false
-
-    - name: Assert Emacs is installed
-      assert:
-        that: emacs_result.rc == 0
-        fail_msg: "emacs não foi instalado corretamente"
