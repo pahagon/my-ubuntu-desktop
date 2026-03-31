@@ -1,0 +1,44 @@
+name: bootstrap
+
+on:
+  push:
+    branches: ["**"]
+    paths:
+      - "bootstrap.sh"
+      - "ansible/**"
+  pull_request:
+    branches: [main]
+    paths:
+      - "bootstrap.sh"
+      - "ansible/**"
+
+jobs:
+  syntax:
+    name: Syntax check
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check bootstrap.sh syntax
+        run: bash -n bootstrap.sh
+
+  validate:
+    name: Validate playbooks
+    runs-on: ubuntu-24.04
+
+    strategy:
+      matrix:
+        playbook: [desktop-minimal.yml, desktop-full.yml]
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install ansible
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ansible
+
+      - name: Syntax check ${{ matrix.playbook }}
+        run: ansible-playbook ansible/${{ matrix.playbook }} --syntax-check
