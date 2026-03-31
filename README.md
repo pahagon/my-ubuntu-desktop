@@ -31,7 +31,7 @@ Este projeto automatiza a configuração completa de um ambiente Ubuntu Desktop 
   - CIDER (Clojure), Alchemist (Elixir)
   - GitHub Copilot integration
   - LSP support
-- **Vim**: Configuração com plugins (Vundle, Supertab, language support)
+- **Vim**: Configuração com plugins via vim-plug (supertab, NERDTree, ctrlp e outros)
 - **Cursor IDE**: Instalação via `ansible/cursor.yml`
 
 ### Ambiente Shell
@@ -47,9 +47,8 @@ Este projeto automatiza a configuração completa de um ambiente Ubuntu Desktop 
   - Go 1.17.1
   - Ruby 3.0.1
 - **Docker & Docker Compose**
-- **Arduino CLI** para desenvolvimento Arduino via `ansible/arduino-cli.yml`
+- **Arduino CLI** via `ansible/arduino-cli.yml`
 - **AWS CLI** com configuração de ambientes
-- **Terraform** support
 
 ## 📁 Estrutura do Repositório
 
@@ -77,8 +76,8 @@ Este projeto automatiza a configuração completa de um ambiente Ubuntu Desktop 
 │   ├── claude-code.yml       # Instalação do Claude Code
 │   ├── cursor.yml            # Instalação do Cursor IDE
 │   ├── arduino-cli.yml       # Instalação do Arduino CLI
-│   ├── desktop-minimal.yml   # Ambiente mínimo de desenvolvimento
-│   └── desktop-full.yml      # Ambiente completo de desenvolvimento
+│   ├── desktop-minimal.yml   # Perfil mínimo de desenvolvimento
+│   └── desktop-full.yml      # Perfil completo de desenvolvimento
 ├── bash/                 # Configuração Bash
 │   ├── rc                # Runtime configuration
 │   ├── profile           # Environment variables
@@ -108,6 +107,7 @@ Este projeto automatiza a configuração completa de um ambiente Ubuntu Desktop 
 ├── ssh/                  # Configuração SSH
 │   └── config            # SSH client config
 ├── autoinstall.yml       # Ubuntu cloud-init autoinstall
+├── bootstrap.sh          # Script de bootstrap para máquinas novas
 ├── Makefile              # Automação VirtualBox
 └── .github/workflows/    # GitHub Actions CI/CD
 
@@ -119,61 +119,42 @@ Este projeto automatiza a configuração completa de um ambiente Ubuntu Desktop 
 
 - Ubuntu 24.04 LTS
 - Conexão com internet
-- Git instalado
-- Sudo privileges
+- Acesso sudo
 
-### Instalação Rápida
+### Instalação Rápida (bootstrap)
+
+Em uma máquina nova, basta executar:
 
 ```bash
-# 1. Clonar o repositório
-git clone https://github.com/pahagon/my-ubuntu-desktop.git ~/dot
-cd ~/dot/ansible
+curl -fsSL https://raw.githubusercontent.com/pahagon/my-ubuntu-desktop/main/bootstrap.sh | bash
+```
 
-# 2. Ambiente mínimo (symlinks, vim, tmux, node, python, github-cli, claude-code)
-ansible-playbook desktop-minimal.yml -K
+O script instala `git` e `ansible`, clona o repositório e executa o `desktop-minimal.yml` automaticamente.
 
-# 3. (Opcional) Ambiente completo
-ansible-playbook desktop-full.yml -K
+Para o ambiente completo:
 
-# 4. (Opcional) Instalar dependências binárias
-cd ..
-./setup-binaries.sh
+```bash
+bash bootstrap.sh desktop-full.yml
 ```
 
 ### Instalação Modular
 
-Você pode instalar componentes específicos:
-
 ```bash
-# Instalar apenas Docker
-ansible-playbook ansible/docker.yml -K
+cd ~/dot/ansible
 
-# Instalar Python + ASDF
-ansible-playbook ansible/python.yml -K
+# Ambiente mínimo
+ansible-playbook desktop-minimal.yml -K
 
-# Instalar Node.js
-ansible-playbook ansible/node.yml -K
+# Ambiente completo
+ansible-playbook desktop-full.yml -K
 
-# Instalar Emacs
-ansible-playbook ansible/emacs27.yml -K
-
-# Instalar Vim
-ansible-playbook ansible/vim.yml -K
-
-# Instalar Claude Code
-ansible-playbook ansible/claude-code.yml -K
-```
-
-### Arduino CLI
-
-```bash
-ansible-playbook ansible/arduino-cli.yml
-```
-
-### Cursor IDE
-
-```bash
-ansible-playbook ansible/cursor.yml
+# Componentes individuais
+ansible-playbook docker.yml -K
+ansible-playbook vim.yml -K
+ansible-playbook emacs27.yml -K
+ansible-playbook cursor.yml
+ansible-playbook arduino-cli.yml
+ansible-playbook claude-code.yml
 ```
 
 ## 🔧 Configuração
