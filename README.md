@@ -4,6 +4,8 @@ Sistema completo de gerenciamento de configurações (dotfiles) e automação pa
 
 ![Ubuntu](https://img.shields.io/badge/Ubuntu-24.04_LTS-E95420?style=flat-square&logo=ubuntu&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)
+![bootstrap](https://github.com/pahagon/my-ubuntu-desktop/actions/workflows/bootstrap.yml/badge.svg)
+![gitleaks](https://github.com/pahagon/my-ubuntu-desktop/actions/workflows/gitleaks.yml/badge.svg)
 
 ## 🎯 Visão Geral
 
