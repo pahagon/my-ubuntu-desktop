@@ -628,11 +628,51 @@ ansible-playbook playbook.yml -vvv -K
 
 ---
 
+## 🧪 Testes com Molecule
+
+Os playbooks são testados automaticamente com [Molecule](https://molecule.readthedocs.io/) usando containers Docker Ubuntu 24.04.
+
+### Cenários disponíveis
+
+| Cenário | Playbook testado |
+|---|---|
+| `vim` | vim.yml |
+| `tmux` | tmux.yml |
+| `docker` | docker.yml |
+
+### Rodar localmente
+
+```bash
+pip install molecule molecule-plugins[docker] ansible
+
+cd ansible
+molecule test --scenario-name vim
+molecule test --scenario-name tmux
+molecule test --scenario-name docker
+```
+
+### Estrutura dos cenários
+
+```
+molecule/
+├── vim/
+│   ├── molecule/molecule.yml   # Configuração do cenário
+│   └── verify/verify.yml       # Assertions pós-instalação
+├── tmux/
+│   ├── molecule/molecule.yml
+│   └── verify/verify.yml
+└── docker/
+    ├── molecule/molecule.yml
+    └── verify/verify.yml
+```
+
+---
+
 ## 📚 Recursos Adicionais
 
 - [Ansible Documentation](https://docs.ansible.com/)
 - [Ansible Best Practices](https://docs.ansible.com/ansible/latest/user_guide/playbooks_best_practices.html)
-- [Ansible Galaxy](https://galaxy.ansible.com/) - Roles pré-construídos
+- [Molecule Documentation](https://molecule.readthedocs.io/)
 - [ASDF Documentation](https://asdf-vm.com/)
 
 ---
@@ -642,10 +682,10 @@ ansible-playbook playbook.yml -vvv -K
 Ao criar ou modificar playbooks:
 
 1. **Idempotência**: Playbooks devem ser executáveis múltiplas vezes sem efeitos colaterais
-2. **Documentação**: Adicione comentários explicando tarefas complexas
-3. **Testes**: Teste em VM antes de commitar
-4. **Versionamento**: Use variáveis para versões de software
-5. **Naming**: Use nomes descritivos para tarefas
+2. **Testes**: Adicione um cenário Molecule para cada novo playbook
+3. **Documentação**: Adicione comentários explicando tarefas complexas
+4. **Versionamento**: Use variáveis em `common_vars.yml` para versões de software
+5. **Checksums**: Adicione checksum ao `get_url` ao baixar binários
 
 **Exemplo de boa tarefa**:
 ```yaml

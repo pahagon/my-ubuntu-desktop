@@ -1,0 +1,23 @@
+---
+- name: Verify docker installation
+  hosts: all
+  tasks:
+    - name: Check docker is installed
+      command: docker --version
+      register: result
+      changed_when: false
+
+    - name: Assert docker is available
+      assert:
+        that: result.rc == 0
+        fail_msg: "docker não foi instalado corretamente"
+
+    - name: Check docker compose is available
+      command: docker compose version
+      register: compose_result
+      changed_when: false
+
+    - name: Assert docker compose is available
+      assert:
+        that: compose_result.rc == 0
+        fail_msg: "docker compose não foi instalado corretamente"

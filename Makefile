@@ -1,16 +1,25 @@
-TEMP_DIR := /tmp/ubuntu-autoinstall
-ISO_URL := https://deb.campolargo.pr.gov.br/ubuntu/releases/24.04.1/ubuntu-24.04.1-desktop-amd64.iso
-ISO_FILE := $(TEMP_DIR)/ubuntu.iso
-VM_NAME := ubuntu-autoinstall
-DISK_FILE := $(TEMP_DIR)/ubuntu.vdi
+TEMP_DIR    := /tmp/ubuntu-autoinstall
+ISO_URL     := https://releases.ubuntu.com/24.04.1/ubuntu-24.04.1-desktop-amd64.iso
+ISO_FILE    := $(TEMP_DIR)/ubuntu.iso
+VM_NAME     := ubuntu-autoinstall
+DISK_FILE   := $(TEMP_DIR)/ubuntu.vdi
 AUTOINSTALL_DIR := $(TEMP_DIR)/nocloud
 AUTOINSTALL_ISO := $(TEMP_DIR)/autoinstall.iso
-VM_MEMORY := 2048
-VM_CPUS := 2
-VM_DISK_SIZE := 10000 # 10GB
+VM_MEMORY   := 2048
+VM_CPUS     := 2
+VM_DISK_SIZE := 10000
+
+MOLECULE_SCENARIOS := vim tmux docker
+
+.PHONY: all vm-test test test-all clean \
+        download_iso create_vm create_autoinstall_iso attach_iso start_vm \
+        $(addprefix test-,$(MOLECULE_SCENARIOS))
 
 all: download_iso create_vm attach_iso start_vm
 
+# -----------------------------------------------
+# VirtualBox — testa Ubuntu Autoinstall
+# -----------------------------------------------
 create_vm:
 	@if ! VBoxManage list vms | grep -q '"$(VM_NAME)"'; then \
 		echo "Creating VM: $(VM_NAME)"; \
@@ -25,14 +34,12 @@ create_vm:
 	fi
 
 create_autoinstall_iso:
-	@if [ ! -d $(AUTOINSTALL_DIR) ]; then \
-		mkdir -p $(AUTOINSTALL_DIR); \
-	fi
-	@cp autoinstall.yml $(AUTOINSTALL_DIR)/user-data
+	@mkdir -p $(AUTOINSTALL_DIR)
+	@cp -u autoinstall.yml $(AUTOINSTALL_DIR)/user-data
 	@echo "instance-id: $(VM_NAME)" > $(AUTOINSTALL_DIR)/meta-data
 	@genisoimage -output $(AUTOINSTALL_ISO) -volid cidata -joliet -rock $(AUTOINSTALL_DIR)
 
-attach_iso: create_autoinstall_iso
+attach_iso: create_vm create_autoinstall_iso
 	@echo "Attaching ISO files..."
 	@VBoxManage storageattach $(VM_NAME) --storagectl "IDE Controller" --port 0 --device 0 --type dvddrive --medium $(ISO_FILE)
 	@VBoxManage storageattach $(VM_NAME) --storagectl "IDE Controller" --port 1 --device 0 --type dvddrive --medium $(AUTOINSTALL_ISO)
@@ -42,24 +49,40 @@ start_vm:
 	@VBoxManage startvm $(VM_NAME) --type headless
 
 download_iso:
-	@echo "Checking if ISO is already downloaded..."
 	@if [ ! -f $(ISO_FILE) ]; then \
-		echo "ISO not found. Downloading from $(ISO_URL)..."; \
+		echo "Downloading ISO from $(ISO_URL)..."; \
 		mkdir -p $(TEMP_DIR); \
 		curl -L -o $(ISO_FILE) $(ISO_URL); \
-		echo "ISO downloaded to $(ISO_FILE)"; \
 	else \
 		echo "ISO already exists at $(ISO_FILE)."; \
 	fi
 
+vm-test: download_iso create_vm attach_iso start_vm
+
+# -----------------------------------------------
+# Molecule — testa playbooks Ansible
+# -----------------------------------------------
+$(addprefix test-,$(MOLECULE_SCENARIOS)):
+	cd ansible && molecule test --scenario-name $(subst test-,,$@)
+
+test:
+	@for scenario in $(MOLECULE_SCENARIOS); do \
+		echo "Running molecule scenario: $$scenario"; \
+		(cd ansible && molecule test --scenario-name $$scenario) || exit 1; \
+	done
+
+# -----------------------------------------------
+# Tudo
+# -----------------------------------------------
+test-all: vm-test test
+
+# -----------------------------------------------
+# Limpeza
+# -----------------------------------------------
 clean:
 	@if VBoxManage list vms | grep -q '"$(VM_NAME)"'; then \
 		echo "Removing VM: $(VM_NAME)"; \
 		VBoxManage unregistervm $(VM_NAME) --delete; \
 	fi
-	@if [ -f $(AUTOINSTALL_ISO) ]; then \
-		rm -f $(AUTOINSTALL_ISO); \
-	fi
-	@if [ -f $(DISK_FILE) ]; then \
-		rm -f $(DISK_FILE); \
-	fi
+	@rm -f $(AUTOINSTALL_ISO) $(DISK_FILE)
+	@rm -rf $(AUTOINSTALL_DIR)

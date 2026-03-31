@@ -1,0 +1,36 @@
+name: molecule
+
+on:
+  push:
+    branches: ["**"]
+    paths:
+      - "ansible/**"
+  pull_request:
+    branches: [main]
+    paths:
+      - "ansible/**"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        scenario: [vim, tmux, docker]
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Molecule and dependencies
+        run: |
+          pip install molecule molecule-plugins[docker] ansible
+
+      - name: Run Molecule tests
+        run: |
+          cd ansible
+          molecule test --scenario-name ${{ matrix.scenario }}

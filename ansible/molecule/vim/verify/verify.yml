@@ -1,0 +1,23 @@
+---
+- name: Verify vim installation
+  hosts: all
+  tasks:
+    - name: Check vim is installed
+      command: vim --version
+      register: result
+      changed_when: false
+
+    - name: Assert vim is available
+      assert:
+        that: result.rc == 0
+        fail_msg: "vim não foi instalado corretamente"
+
+    - name: Check curl is installed
+      command: curl --version
+      register: curl_result
+      changed_when: false
+
+    - name: Assert curl is available
+      assert:
+        that: curl_result.rc == 0
+        fail_msg: "curl não foi instalado corretamente"

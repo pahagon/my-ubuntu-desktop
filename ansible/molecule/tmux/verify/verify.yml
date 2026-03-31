@@ -1,0 +1,13 @@
+---
+- name: Verify tmux installation
+  hosts: all
+  tasks:
+    - name: Check tmux is installed
+      command: tmux -V
+      register: result
+      changed_when: false
+
+    - name: Assert tmux is available
+      assert:
+        that: result.rc == 0
+        fail_msg: "tmux não foi instalado corretamente"

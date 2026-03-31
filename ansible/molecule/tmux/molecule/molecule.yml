@@ -1,0 +1,19 @@
+---
+dependency:
+  name: galaxy
+
+driver:
+  name: docker
+
+platforms:
+  - name: ubuntu-tmux
+    image: geerlingguy/docker-ubuntu2404-ansible:latest
+    pre_build_image: true
+
+provisioner:
+  name: ansible
+  playbooks:
+    converge: ../../../tmux.yml
+
+verifier:
+  name: ansible

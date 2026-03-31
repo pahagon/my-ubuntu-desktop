@@ -1,0 +1,19 @@
+---
+dependency:
+  name: galaxy
+
+driver:
+  name: docker
+
+platforms:
+  - name: ubuntu-vim
+    image: geerlingguy/docker-ubuntu2404-ansible:latest
+    pre_build_image: true
+
+provisioner:
+  name: ansible
+  playbooks:
+    converge: ../../../vim.yml
+
+verifier:
+  name: ansible

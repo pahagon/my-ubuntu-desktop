@@ -13,7 +13,7 @@ Este projeto automatiza a configuração completa de um ambiente Ubuntu Desktop 
 - **Configurações completas** para Emacs (50+ pacotes), Vim, Tmux, Bash
 - **Gerenciamento de versões** com ASDF para Python, Node.js, Go, Ruby
 - **Ubuntu Autoinstall** com cloud-init para instalação desatendida
-- **CI/CD** com GitHub Actions para validação automatizada
+- **CI/CD** com GitHub Actions — Molecule tests, gitleaks e validação de autoinstall
 - **Repositório limpo**: apenas ~23MB (binários não são versionados)
 
 ## ✨ Principais Recursos
@@ -22,7 +22,7 @@ Este projeto automatiza a configuração completa de um ambiente Ubuntu Desktop 
 - **Ansible Playbooks**: Instalação automatizada de Docker, Python, Node.js, Ruby, Go, Java, Emacs, Chrome, GitHub CLI e mais
 - **Ubuntu Autoinstall**: Instalação desatendida via cloud-init para deploy em VMs ou bare-metal
 - **VirtualBox/QEMU**: Automação via Makefile para testes de instalação
-- **GitHub Actions**: Validação contínua da configuração de autoinstall
+- **GitHub Actions**: Molecule tests nos playbooks, gitleaks para detecção de secrets e validação do autoinstall
 
 ### Editores e IDEs
 - **Emacs 27+**: Configuração extensiva com 50+ pacotes
@@ -109,7 +109,10 @@ Este projeto automatiza a configuração completa de um ambiente Ubuntu Desktop 
 ├── autoinstall.yml       # Ubuntu cloud-init autoinstall
 ├── bootstrap.sh          # Script de bootstrap para máquinas novas
 ├── Makefile              # Automação VirtualBox
-└── .github/workflows/    # GitHub Actions CI/CD
+├── .github/workflows/
+│   ├── gitleaks.yml      # Detecção de secrets
+│   └── molecule.yml      # Testes dos playbooks Ansible
+└── bootstrap.sh          # Script de bootstrap para máquinas novas
 
 ```
 
@@ -255,7 +258,21 @@ O autoinstall pode ser usado para:
 
 ## 🔄 CI/CD
 
-GitHub Actions valida automaticamente a configuração de autoinstall em `.github/workflows/autoinstall-test.yml:1`.
+| Workflow | Trigger | O que faz |
+|---|---|---|
+| `gitleaks.yml` | push / PR | Detecta secrets e credenciais no código |
+| `molecule.yml` | push / PR em `ansible/**` | Testa playbooks em containers Ubuntu limpos |
+
+### Rodar Molecule localmente
+
+```bash
+pip install molecule molecule-plugins[docker] ansible
+
+cd ansible
+molecule test --scenario-name vim
+molecule test --scenario-name tmux
+molecule test --scenario-name docker
+```
 
 ## 🎨 Customização
 
