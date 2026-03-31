@@ -19,4 +19,7 @@
           url: "{{ cursor_url }}"
           dest: "{{ cursor_dest }}"
           mode: "0755"
+          validate_certs: true
           force: true
+        # Cursor não expõe versão na URL — verificar manualmente:
+        # sha256sum ~/bin/Cursor-latest.AppImage

@@ -5,7 +5,7 @@
     vars_files:
       - common_vars.yml
     vars:
-      arduino_url: "https://downloads.arduino.cc/arduino-cli/arduino-cli_latest_Linux_64bit.tar.gz"
+      arduino_url: "https://downloads.arduino.cc/arduino-cli/arduino-cli_{{ arduino_cli_version }}_Linux_64bit.tar.gz"
       arduino_tmp: "/tmp/arduino-cli.tar.gz"
     tasks:
       - name: Install curl
@@ -18,6 +18,8 @@
         get_url:
           url: "{{ arduino_url }}"
           dest: "{{ arduino_tmp }}"
+          checksum: "{{ arduino_cli_checksum }}"
+          validate_certs: true
           force: true
 
       - name: Extract Arduino CLI to bin
