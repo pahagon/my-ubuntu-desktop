@@ -6,9 +6,6 @@
 - import_playbook: java.yml
 - import_playbook: ruby.yml
 - import_playbook: emacs27.yml
-- import_playbook: theme-icons.yml
-- import_playbook: virtualbox.yml
-- import_playbook: qemu.yml
 - import_playbook: cursor.yml
 - import_playbook: arduino-cli.yml
 - import_playbook: genisoimage.yml

@@ -32,7 +32,6 @@
         - { src: "vim",              dest: ".vim"          }
         - { src: "bin",              dest: "bin"           }
         - { src: "ssh/config",       dest: ".ssh/config"   }
-        - { src: "rxvt-unicode/powerline-tmux.desktop", dest: ".local/share/applications/rxvt-unicode-powerline-tmux.desktop" }
 
     - name: "Generate en_US.UTF-8 locale"
       locale_gen:
