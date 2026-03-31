@@ -3,6 +3,7 @@
   - name: "Install Google Chrome"
     hosts: localhost
     connection: local
+    become: true
     tasks:
       - name: Add a google Apt signing key
         ansible.builtin.apt_key:
