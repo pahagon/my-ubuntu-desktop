@@ -123,10 +123,17 @@ Este projeto automatiza a configuração completa de um ambiente Ubuntu Desktop 
 
 ### Instalação Rápida (bootstrap)
 
-Em uma máquina nova, basta executar:
+> **Aviso de segurança**: executar scripts via `curl | bash` concede execução direta com sudo.
+> Inspecione o script antes de executar:
+> ```bash
+> curl -fsSL https://raw.githubusercontent.com/pahagon/my-ubuntu-desktop/main/bootstrap.sh | less
+> ```
+
+Em uma máquina nova, após inspecionar:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/pahagon/my-ubuntu-desktop/main/bootstrap.sh | bash
+curl -fsSL https://raw.githubusercontent.com/pahagon/my-ubuntu-desktop/main/bootstrap.sh -o bootstrap.sh
+bash bootstrap.sh
 ```
 
 O script instala `git` e `ansible`, clona o repositório e executa o `desktop-minimal.yml` automaticamente.

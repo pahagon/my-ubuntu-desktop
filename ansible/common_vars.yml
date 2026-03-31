@@ -4,3 +4,11 @@ my_home: /home/paulo.ahagon
 my_bin: /home/paulo.ahagon/bin
 my_init_author_name: Paulo Ahagon
 my_init_author_email: pahagon@gmail.com
+
+# Versões de ferramentas — atualizar checksum ao trocar versão
+# arduino-cli: https://github.com/arduino/arduino-cli/releases
+arduino_cli_version: "1.1.1"
+arduino_cli_checksum: "sha256:ATUALIZE_COM_O_CHECKSUM_DA_VERSAO"
+
+# cursor: não suporta pinning de versão via URL oficial
+# validar manualmente após download: sha256sum ~/bin/Cursor-latest.AppImage
