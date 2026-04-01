@@ -1,0 +1,25 @@
+---
+- name: Install ArgoCD CLI
+  hosts: localhost
+  connection: local
+  vars_files:
+    - common_vars.yml
+  vars:
+    argocd_version: "v3.3.6"
+    argocd_url: "https://github.com/argoproj/argo-cd/releases/download/{{ argocd_version }}/argocd-linux-amd64"
+    argocd_dest: "{{ my_bin }}/argocd"
+
+  tasks:
+    - name: Download ArgoCD CLI
+      get_url:
+        url: "{{ argocd_url }}"
+        dest: "{{ argocd_dest }}"
+        mode: "0755"
+        validate_certs: true
+        force: true
+
+    - name: Verify ArgoCD CLI installation
+      command: "{{ argocd_dest }} version --client"
+      register: argocd_result
+      changed_when: false
+      failed_when: argocd_result.rc != 0
