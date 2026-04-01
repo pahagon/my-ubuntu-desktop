@@ -475,6 +475,21 @@ arduino-cli version
 
 ---
 
+### argocd-cli.yml
+**Descrição**: Baixa e instala o ArgoCD CLI em `~/bin/`.
+
+**Uso**:
+```bash
+ansible-playbook argocd-cli.yml
+```
+
+**Verificar instalação**:
+```bash
+argocd version --client
+```
+
+---
+
 ## 📄 Arquivos Compartilhados
 
 ### common_vars.yml
