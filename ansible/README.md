@@ -475,6 +475,21 @@ arduino-cli version
 
 ---
 
+### datadog-ci.yml
+**Descrição**: Baixa e instala o Datadog CI CLI em `~/bin/`.
+
+**Uso**:
+```bash
+ansible-playbook datadog-ci.yml
+```
+
+**Verificar instalação**:
+```bash
+datadog-ci version
+```
+
+---
+
 ### argocd-cli.yml
 **Descrição**: Baixa e instala o ArgoCD CLI em `~/bin/`.
 

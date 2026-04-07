@@ -1,0 +1,27 @@
+---
+- name: Install Datadog CI CLI
+  hosts: localhost
+  connection: local
+  vars_files:
+    - common_vars.yml
+  vars:
+    datadog_ci_version: "v5.12.1"
+    datadog_ci_checksum: "sha256:86fcf24d5211f5ae714e947354ccb621e74e2bba4162247890454c6461e74ca5"
+    datadog_ci_url: "https://github.com/DataDog/datadog-ci/releases/download/{{ datadog_ci_version }}/datadog-ci_linux-x64"
+    datadog_ci_dest: "{{ my_bin }}/datadog-ci"
+
+  tasks:
+    - name: Download Datadog CI CLI
+      get_url:
+        url: "{{ datadog_ci_url }}"
+        dest: "{{ datadog_ci_dest }}"
+        checksum: "{{ datadog_ci_checksum }}"
+        mode: "0755"
+        validate_certs: true
+        force: true
+
+    - name: Verify Datadog CI CLI installation
+      command: "{{ datadog_ci_dest }} version"
+      register: datadog_ci_result
+      changed_when: false
+      failed_when: datadog_ci_result.rc != 0
