@@ -50,6 +50,7 @@ Este projeto automatiza a configuração completa de um ambiente Ubuntu Desktop 
   - Ruby 3.0.1
 - **Docker & Docker Compose**
 - **Arduino CLI** via `ansible/arduino-cli.yml`
+- **ArgoCD CLI** via `ansible/argocd-cli.yml`
 - **AWS CLI** com configuração de ambientes
 
 ## 📁 Estrutura do Repositório
@@ -78,6 +79,7 @@ Este projeto automatiza a configuração completa de um ambiente Ubuntu Desktop 
 │   ├── claude-code.yml       # Instalação do Claude Code
 │   ├── cursor.yml            # Instalação do Cursor IDE
 │   ├── arduino-cli.yml       # Instalação do Arduino CLI
+│   ├── argocd-cli.yml        # Instalação do ArgoCD CLI
 │   ├── desktop-minimal.yml   # Perfil mínimo de desenvolvimento
 │   └── desktop-full.yml      # Perfil completo de desenvolvimento
 ├── bash/                 # Configuração Bash
