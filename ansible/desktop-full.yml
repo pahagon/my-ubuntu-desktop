@@ -9,3 +9,4 @@
 - import_playbook: cursor.yml
 - import_playbook: arduino-cli.yml
 - import_playbook: genisoimage.yml
+- import_playbook: datadog-ci.yml
