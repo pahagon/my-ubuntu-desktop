@@ -41,3 +41,12 @@ source $HOME/dot/bash/powerline
 source $HOME/dot/bash/asdf
 source $HOME/dot/bash/rc
 
+# Load private environment variables (not versioned)
+if [ -d "$HOME/.env.d" ]; then
+  set -a
+  for f in "$HOME/.env.d"/*.bash; do
+    [ -f "$f" ] && source "$f"
+  done
+  set +a
+fi
+
