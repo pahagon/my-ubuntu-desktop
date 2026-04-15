@@ -1,0 +1,11 @@
+---
+- name: Install Graphviz
+  hosts: localhost
+  become: true
+
+  tasks:
+    - name: Install graphviz
+      apt:
+        name: graphviz
+        state: present
+        update_cache: yes

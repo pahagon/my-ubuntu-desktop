@@ -10,3 +10,4 @@
 - import_playbook: arduino-cli.yml
 - import_playbook: genisoimage.yml
 - import_playbook: datadog-ci.yml
+- import_playbook: graphviz.yml
