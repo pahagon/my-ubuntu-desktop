@@ -62,7 +62,8 @@ ansible-playbook desktop-minimal.yml -K
 
 **Inclui** (além do minimal):
 - docker.yml, chrome.yml, golang.yml, java.yml
-- ruby.yml, emacs27.yml, theme-icons.yml, virtualbox.yml, qemu.yml
+- ruby.yml, emacs27.yml, cursor.yml, arduino-cli.yml
+- genisoimage.yml, datadog-ci.yml, graphviz.yml
 
 **Uso**:
 ```bash
@@ -501,6 +502,21 @@ ansible-playbook argocd-cli.yml
 **Verificar instalação**:
 ```bash
 argocd version --client
+```
+
+---
+
+### graphviz.yml
+**Descrição**: Instala o Graphviz para geração de grafos e diagramas.
+
+**Uso**:
+```bash
+ansible-playbook graphviz.yml -K
+```
+
+**Verificar instalação**:
+```bash
+dot -V
 ```
 
 ---
