@@ -1,0 +1,10 @@
+---
+- name: Install LastPass CLI (lpass)
+  hosts: localhost
+  connection: local
+  become: yes
+  tasks:
+    - name: Install lpass
+      apt:
+        name: lastpass-cli
+        state: present
